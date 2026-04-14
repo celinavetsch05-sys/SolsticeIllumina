@@ -1,0 +1,374 @@
+/* ── RESET + TOKENS ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --void: #04051a;
+  --solstice: #6b3fa0;
+  --lumina: #c4a8ff;
+  --gold: #d4a847;
+  --iris: #8de8d8;
+  --stardust: #f0ecff;
+  --muted: #7a6e9a;
+  --border: rgba(196,168,255,0.13);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--stardust);
+  font-family: Georgia, serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ── */
+.cursor {
+  position: fixed;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(196,168,255,0.75);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  mix-blend-mode: screen;
+  transition: transform .15s;
+}
+.cursor.hovering { transform: translate(-50%,-50%) scale(2.2); }
+.trail-dot {
+  position: fixed;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(196,168,255,0.45);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+}
+
+/* ── CANVAS ── */
+#bgCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.4rem 4rem;
+  background: rgba(4,5,26,0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-logo {
+  font-size: 1.05rem;
+  font-weight: 300;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--stardust);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--lumina); }
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: .7rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: sans-serif;
+  transition: color .2s;
+  position: relative;
+}
+.nav-links a:hover { color: var(--lumina); }
+/* Active state — distinct from hover via ::after dot */
+.nav-links a.active { color: var(--lumina); }
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--lumina);
+}
+.nav-cta {
+  padding: .55rem 1.4rem;
+  border: 1px solid rgba(196,168,255,.35);
+  border-radius: 30px;
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--lumina);
+  background: transparent;
+  cursor: pointer;
+  font-family: sans-serif;
+  transition: background .2s, transform .15s;
+}
+.nav-cta:hover { background: rgba(196,168,255,.09); transform: translateY(-1px); }
+
+/* ── SHARED TYPOGRAPHY ── */
+.sec-eyebrow {
+  font-size: .63rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: sans-serif;
+  margin-bottom: 1rem;
+}
+.sec-body {
+  font-size: .93rem;
+  color: var(--muted);
+  line-height: 1.85;
+  font-family: sans-serif;
+  font-weight: 300;
+}
+.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+/* .case-tag resting state (matches index.html) */
+.case-tag {
+  font-size: .58rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: .22rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  font-family: sans-serif;
+  transition: color .2s, border-color .2s;
+  display: inline-block;
+}
+/* Hover — new rule in case-study.css only; index.html's .case-tag is not modified */
+.case-tag:hover {
+  color: var(--lumina);
+  border-color: rgba(196,168,255,.4);
+}
+
+/* ── PAGE LAYOUT ── */
+.cs-page {
+  position: relative;
+  z-index: 1;
+  padding-top: 6rem;
+  min-height: 100vh;
+}
+.cs-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 3rem 6rem;
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+/* ── SIDEBAR ── */
+.cs-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.cs-sidebar-back {
+  font-size: .66rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: sans-serif;
+  transition: color .2s;
+  margin-bottom: .3rem;
+  display: inline-block;
+}
+.cs-sidebar-back:hover { color: var(--lumina); }
+
+/* Sidebar meta blocks — reuse .skill-card visual treatment from index.html */
+.skill-card {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,.02);
+  transition: border-color .3s, background .3s;
+}
+.skill-card:hover {
+  border-color: rgba(196,168,255,.35);
+  background: rgba(107,63,160,.12);
+}
+.skill-card-title {
+  font-size: .65rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--lumina);
+  font-family: sans-serif;
+  margin-bottom: .5rem;
+}
+.skill-card-body {
+  font-size: .78rem;
+  color: var(--muted);
+  line-height: 1.6;
+  font-family: sans-serif;
+}
+
+/* ── MAIN COLUMN ── */
+.cs-main { flex: 1; min-width: 0; }
+
+.cs-title {
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 200;
+  letter-spacing: .06em;
+  color: var(--stardust);
+  line-height: 1.15;
+  margin-bottom: .8rem;
+}
+.cs-tags {
+  display: flex;
+  gap: .45rem;
+  flex-wrap: wrap;
+  margin-bottom: .5rem;
+}
+
+/* ── HERO IMAGE ── */
+.cs-hero {
+  width: 100%;
+  height: clamp(220px, 40vh, 420px);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: .65rem;
+  letter-spacing: .25em;
+  color: var(--muted);
+  text-transform: uppercase;
+  transition: box-shadow .3s, border-color .3s;
+  background-size: cover;
+  background-position: center;
+}
+.cs-hero:hover {
+  box-shadow: 0 0 32px rgba(196,168,255,.28);
+  border-color: rgba(196,168,255,.3);
+}
+
+/* ── SECTIONS ── */
+.cs-section { margin-top: 2.5rem; }
+
+/* ── BRAND COLORS ── */
+.cs-colors { display: flex; gap: .75rem; flex-wrap: wrap; }
+.cs-swatch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  flex: 1;
+  min-width: 60px;
+}
+.cs-swatch {
+  width: 100%;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(196,168,255,.25);
+}
+.cs-swatch-hex {
+  font-size: .63rem;
+  letter-spacing: .15em;
+  color: var(--muted);
+  font-family: sans-serif;
+  text-align: center;
+}
+
+/* ── WORK GRID ── */
+.cs-work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.cs-work-img {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: .6rem;
+  letter-spacing: .2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  transition: transform .2s, border-color .2s;
+  background-size: cover;
+  background-position: center;
+}
+.cs-work-img:hover {
+  transform: translateY(-3px);
+  border-color: rgba(196,168,255,.3);
+}
+
+/* ── CASE NAVIGATION ── */
+.cs-case-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.cs-nav-link {
+  font-size: .66rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  font-family: sans-serif;
+  transition: color .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+.cs-nav-link:hover { color: var(--lumina); }
+.cs-nav-arrow { transition: transform .2s; display: inline-block; }
+.cs-nav-link.next:hover .cs-nav-arrow { transform: translateX(4px); }
+.cs-nav-link.prev:hover .cs-nav-arrow { transform: translateX(-4px); }
+
+/* ── RESPONSIVE: below 900px — sidebar becomes horizontal meta strip ── */
+@media (max-width: 900px) {
+  .cs-inner { flex-direction: column; gap: 2rem; padding: 2rem 2rem 5rem; }
+  .cs-sidebar {
+    width: 100%;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .6rem;
+  }
+  .cs-sidebar-back { width: 100%; margin-bottom: 0; }
+  .skill-card { flex: 1; min-width: 120px; padding: .7rem .9rem; }
+}
+
+/* ── MOBILE: below 768px — hide nav links, restore system cursor ── */
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .cs-inner { padding: 2rem 1.5rem 4rem; }
+  .cs-work-grid { grid-template-columns: 1fr; }
+  body { cursor: auto; }
+  .cursor, .trail-dot { display: none; }
+}
