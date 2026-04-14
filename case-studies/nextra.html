@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXTRA — Celina Vetsch</title>
+  <link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">Solstice <span>Illumina</span></a>
+    <ul class="nav-links">
+      <li><a href="/#portfolio">Work</a></li>
+      <li><a href="/#cases" class="active">Case Studies</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="window.location.href='/#contact'">Let's Talk</button>
+  </div>
+</nav>
+
+<main class="cs-page">
+  <div class="cs-inner">
+
+    <aside class="cs-sidebar">
+      <a class="cs-sidebar-back" href="/#cases">← Case Studies</a>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-card-title">Scope</div>
+        <div class="cs-sidebar-card-body">Product card, print layout</div>
+      </div>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-card-title">Year</div>
+        <div class="cs-sidebar-card-body">2024</div>
+      </div>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-card-title">Deliverable</div>
+        <div class="cs-sidebar-card-body">Print-ready product information card (digital + print)</div>
+      </div>
+    </aside>
+
+    <article class="cs-main">
+      <p class="sec-eyebrow">Case Study 03</p>
+      <h1 class="cs-title">NEXTRA — translating a product into a one-page visual story</h1>
+      <div class="cs-tags">
+        <span class="case-tag">Product Design</span>
+        <span class="case-tag">Print</span>
+        <span class="case-tag">Layout</span>
+      </div>
+
+      <hr class="divider">
+
+      <!--
+        HERO IMAGE SLOT
+        Suggested: full product card at a slight angle on dark background
+        To activate: replace the style attribute with:
+          style="background-image: url('images/nextra-hero.jpg')"
+        and remove the placeholder text inside the div
+      -->
+      <div class="cs-hero" style="background: linear-gradient(135deg,#1a1208,#2a200e);">
+        Add hero image — images/nextra-hero.jpg
+      </div>
+
+      <hr class="divider">
+
+      <div class="cs-section">
+        <p class="sec-eyebrow">The Brief</p>
+        <p class="sec-body">NEXTRA is a handmade neck protection scarf. The product card needed to explain its features and use cases quickly using icons and clean layout, for both print and digital distribution.</p>
+      </div>
+
+      <div class="cs-section">
+        <p class="sec-eyebrow">Brand Colors</p>
+        <div class="cs-colors">
+          <div class="cs-swatch-wrap">
+            <div class="cs-swatch" style="background:#ffffff;"></div>
+            <span class="cs-swatch-hex">#ffffff</span>
+          </div>
+          <div class="cs-swatch-wrap">
+            <div class="cs-swatch" style="background:#f5f0e8;"></div>
+            <span class="cs-swatch-hex">#f5f0e8</span>
+          </div>
+          <div class="cs-swatch-wrap">
+            <!-- near-black swatch — border in CSS ensures visibility on --void background -->
+            <div class="cs-swatch" style="background:#2a2a2a;"></div>
+            <span class="cs-swatch-hex">#2a2a2a</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <p class="sec-eyebrow">Work</p>
+        <div class="cs-work-grid">
+          <!--
+            IMAGE SLOT: Product card front
+            To activate: replace style with background-image: url('images/nextra-card.jpg')
+          -->
+          <div class="cs-work-img" style="background: linear-gradient(135deg,#1a1208,#2e2210);">
+            Product card — images/nextra-card.jpg
+          </div>
+          <!--
+            IMAGE SLOT: Icon detail / close-up of layout
+            To activate: replace style with background-image: url('images/nextra-detail.jpg')
+          -->
+          <div class="cs-work-img" style="background: linear-gradient(135deg,#12100a,#201c10);">
+            Icon detail — images/nextra-detail.jpg
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <p class="sec-eyebrow">What I Learned</p>
+        <p class="sec-body">Information hierarchy in print is unforgiving — icons and layout do more work than words when a customer has seconds to decide.</p>
+      </div>
+
+      <div class="cs-case-nav">
+        <a class="cs-nav-link prev" href="by-vanessa.html">
+          <span class="cs-nav-arrow">←</span> By Vanessa
+        </a>
+        <a class="cs-nav-link next" href="bali-invest.html">
+          Next case <span class="cs-nav-arrow">→</span>
+        </a>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<script src="cosmic.js"></script>
+</body>
+</html>
