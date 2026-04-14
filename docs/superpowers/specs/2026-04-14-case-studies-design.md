@@ -177,7 +177,7 @@ Extracted from `index.html` verbatim:
 - **Year:** 2024
 - **Deliverable:** Print-ready product information card (digital + print)
 - **Brand colors:** `#ffffff` (white) · `#f5f0e8` (cream) · `#2a2a2a` (near-black) — **all swatches must have the standard `rgba(196,168,255,.25)` border** (near-black is near-invisible on `--void` without it)
-- **The Brief:** NEXTRA is a handmade face and neck covering. ⚠️ **Celina to verify exact product category before shipping** (neck gaiter / buff / convertible headwear — use the term from the actual product). The product card needed to explain its features and use cases quickly using icons and clean layout, for both print and digital distribution.
+- **The Brief:** NEXTRA is a handmade neck protection scarf. The product card needed to explain its features and use cases quickly using icons and clean layout, for both print and digital distribution.
 - **Work images:** Product card front, icon detail
 - **What I Learned:** Information hierarchy in print is unforgiving — icons and layout do more work than words when a customer has seconds to decide.
 
