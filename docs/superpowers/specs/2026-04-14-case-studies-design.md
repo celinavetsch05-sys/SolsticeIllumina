@@ -1,5 +1,5 @@
 # Case Study Subpages — Design Spec
-**Date:** 2026-04-14 (revised after Opus review)
+**Date:** 2026-04-14 (revised after two Opus review rounds)
 **Project:** Solstice Illumina (celinavetsch05-sys/SolsticeIllumina)
 
 ---
@@ -9,7 +9,7 @@
 Four standalone HTML pages, one per case study, living in a `case-studies/` folder. Each page shares the homepage's design system and uses Layout B (sidebar + main column) with hover effects and the Full content structure (Brief + Colors + Gallery + Reflection).
 
 Two shared external files extracted to avoid duplication across five pages:
-- `case-studies/cosmic.js` — animated star canvas + custom cursor logic (shared by all case study pages and could be backlinked from index.html later)
+- `case-studies/cosmic.js` — animated star canvas + custom cursor logic (shared by all case study pages; can be linked from the homepage later if `index.html` adopts the same extraction)
 - `case-studies/case-study.css` — all layout, sidebar, section, and hover styles
 
 ---
@@ -35,7 +35,7 @@ These paths match the existing `href` links in `index.html` exactly.
 
 ### Navigation Bar
 - Same fixed nav as homepage: logo left, links right, `Let's Talk` CTA button
-- Active nav link: **"Case Studies"** highlighted in `--lumina` (not "Work" — "Work" goes to `#portfolio`, a different section)
+- Active nav link: **"Case Studies"** highlighted in `--lumina` with a visible "you are here" signal distinct from hover — use a `::after` dot (4px, `--lumina`, centered below the text) so active and hovered links don't look identical (not "Work" — "Work" goes to `#portfolio`, a different section)
 
 ### Responsive Layout
 
@@ -54,10 +54,10 @@ These paths match the existing `href` links in `index.html` exactly.
 │  ← Case      │   Tags row (.case-tag reused)        │
 │    Studies   │   ─────────────────────              │
 │              │   Hero image                         │
-│  Client      │   ─────────────────────              │
-│  Scope       │   THE BRIEF                          │
-│  Year        │   paragraph                          │
-│  Deliverable │   ─────────────────────              │
+│  Scope       │   ─────────────────────              │
+│  Year        │   THE BRIEF                          │
+│  Deliverable │   paragraph                          │
+│              │   ─────────────────────              │
 │              │   BRAND COLORS                       │
 │              │   color swatch row                   │
 │              │   ─────────────────────              │
@@ -73,7 +73,7 @@ These paths match the existing `href` links in `index.html` exactly.
 
 **Mobile (< 900px): Stacked**
 
-The sidebar drops `position: sticky` and stacks above the main column as a **horizontal meta strip** — Client / Scope / Year / Deliverable displayed as inline-block chips in a wrapping flex row. No vertical sidebar on mobile.
+The sidebar drops `position: sticky` and stacks above the main column as a **horizontal meta strip** — Scope / Year / Deliverable displayed as inline-block chips in a wrapping flex row. No vertical sidebar on mobile. No "Client" field — the page title already names the client.
 
 Also on mobile (< 768px):
 - `body { cursor: auto }` — restore default cursor
@@ -82,6 +82,7 @@ Also on mobile (< 768px):
 ### Sidebar Details (desktop)
 - `position: sticky; top: 6rem` — clears the fixed nav (~61px + breathing room)
 - `← Case Studies` link at top → `href="/#cases"` (not `/#portfolio`)
+- **No "Client" field** — the page title already names the client; repeating it in the sidebar is redundant. Fields: Scope / Year / Deliverable only.
 - Meta blocks reuse the **`.skill-card` visual treatment** from `index.html` exactly: `padding: 1.1rem 1.2rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,.02)` — no new class needed
 - Sidebar label field text in `--lumina` (matches `.skill-card-title`), value text in `--muted`
 
@@ -93,7 +94,7 @@ Also on mobile (< 768px):
 5. **Hero image** — `height: clamp(220px, 40vh, 420px)`, full width, `border-radius: 12px`, gradient placeholder until real image added
 6. **Divider**
 7. **The Brief** — section label in `.sec-eyebrow` style, paragraph in `.sec-body` style (`--muted`, sans-serif, `line-height: 1.85`)
-8. **Brand Colors** — section label + flex row of color swatches. Each swatch: `height: 32px`, `border-radius: 8px`, `flex: 1`. **All swatches must have `border: 1px solid rgba(196,168,255,.25)`** so light/near-black colors read against `--void`
+8. **Brand Colors** — section label + flex row of color swatches. Each swatch: `height: 32px`, `border-radius: 8px`, `flex: 1`. **All swatches must have `border: 1px solid rgba(196,168,255,.25)`** so light/near-black colors read against `--void`. Each swatch shows its hex code below in `.sec-eyebrow` styling (`.63rem`, `--muted`, sans-serif)
 9. **Work** — section label + 2-column image grid. Each cell: gradient placeholder with comment marking what image goes here. On hover: `translateY(-3px)`, `border-color: rgba(196,168,255,.3)`
 10. **What I Learned** — section label + paragraph
 11. **Case navigation** — see below
@@ -121,7 +122,7 @@ Also on mobile (< 768px):
 | Sidebar meta cards | `border: var(--border)`, `bg: rgba(255,255,255,.02)` | `border: rgba(196,168,255,.35)`, `bg: rgba(107,63,160,.12)` — **no translateX** (cards aren't clickable) |
 | `← Case Studies` link | `color: --muted` | `color: --lumina` |
 | Hero image | standard border | `box-shadow: 0 0 32px rgba(196,168,255,.28)` (uses `--lumina` not `--solstice`) |
-| Tags (`.case-tag`) | `color: --muted`, `border: var(--border)` | `color: --lumina`, `border: rgba(196,168,255,.4)` |
+| Tags (`.case-tag`) | `color: --muted`, `border: var(--border)` | `color: --lumina`, `border: rgba(196,168,255,.4)` — this hover rule is **new**, added in `case-study.css` only; `index.html`'s `.case-tag` is not modified |
 | Work grid images | standard | `translateY(-3px)`, `border-color: rgba(196,168,255,.3)` |
 | Case nav links | `color: --muted` | `color: --lumina`, arrow shifts `4px` |
 | All transitions | — | `.2s–.3s ease` |
@@ -163,7 +164,7 @@ Extracted from `index.html` verbatim:
 - **Year:** 2024
 - **Deliverable:** Brand identity system + Instagram content pillars
 - **Brand colors:** `#8fa882` (sage) · `#e8e4d9` (cream) · `#2d3a2e` (dark green)
-- **The Brief:** A wellness and nutrition coach needed a brand that felt natural, warm, and growth-oriented — reflected in the tree logo and earthy palette. The tagline "Energie im Wachstum" (Energy in Growth) anchored the identity.
+- **The Brief:** A wellness and nutrition coach needed a brand that felt natural, warm, and growth-oriented — approachable for everyday clients while still feeling credible and professional. The tagline "Energie im Wachstum" (Energy in Growth) anchored the identity direction.
 - **Work images:** Logo (tree / "By Vanessa — Energie im Wachstum"), Instagram nutrition posts
 - **What I Learned:** Wellness brands live and die by consistency — the content pillars were as important as the visual identity itself.
 - **Note:** "Energie im Wachstum" is German ("Energy in Growth") — include the English gloss on first use for non-German readers.
@@ -176,7 +177,7 @@ Extracted from `index.html` verbatim:
 - **Year:** 2024
 - **Deliverable:** Print-ready product information card (digital + print)
 - **Brand colors:** `#ffffff` (white) · `#f5f0e8` (cream) · `#2a2a2a` (near-black) — **all swatches must have the standard `rgba(196,168,255,.25)` border** (near-black is near-invisible on `--void` without it)
-- **The Brief:** NEXTRA is a handmade multifunctional neck gaiter — a convertible face and neck covering worn for outdoor protection. The product card needed to explain its features and use cases quickly using icons and clean layout, for both print and digital distribution.
+- **The Brief:** NEXTRA is a handmade face and neck covering. ⚠️ **Celina to verify exact product category before shipping** (neck gaiter / buff / convertible headwear — use the term from the actual product). The product card needed to explain its features and use cases quickly using icons and clean layout, for both print and digital distribution.
 - **Work images:** Product card front, icon detail
 - **What I Learned:** Information hierarchy in print is unforgiving — icons and layout do more work than words when a customer has seconds to decide.
 
