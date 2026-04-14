@@ -1,3 +1,4 @@
+(function () {
 /* cosmic.js — star canvas + custom cursor (shared across all case study pages) */
 
 const canvas = document.getElementById('bgCanvas');
@@ -94,3 +95,4 @@ window.addEventListener('resize', resize);
 window.addEventListener('load', resize);
 resize();
 requestAnimationFrame(frame);
+})();
