@@ -88,7 +88,11 @@
       text-transform: uppercase;
       color: var(--stardust);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .55rem;
     }
+    .nav-logo svg { flex-shrink: 0; }
     .nav-logo span { color: var(--lumina); }
     .nav-links {
       display: flex;
@@ -258,71 +262,95 @@
       gap: 1.5rem;
       margin-top: 3.5rem;
     }
+    /* ── FLIP CARDS ── */
     .const-card {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      background: rgba(255,255,255,.025);
-      transition: border-color .3s, transform .3s;
+      perspective: 900px;
+      height: 240px;
       cursor: pointer;
     }
-    .const-card:hover { border-color: rgba(196,168,255,.35); transform: translateY(-4px); }
-
-    /*
-    =====================================================================
-    IMAGE SLOTS — replace the background-color with background-image
-    =====================================================================
-    Each .card-visual below has an id. To add your image:
-
-      #img-logos      → export your logo collection as a JPG/PNG
-      #img-brand      → screenshot of Mind Heart Finance or By Vanessa brand system
-      #img-social     → collage or best Instagram post mockup
-      #img-web        → screenshot of a landing page you designed
-      #img-print      → the coffee flyer or NEXTRA product card
-
-    Replace the gradient with:
-      background-image: url('images/your-file.jpg');
-      background-size: cover;
-      background-position: center;
-
-    Put your image files in an /images/ folder next to this HTML file.
-    =====================================================================
-    */
-
-    .card-visual {
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .card-inner {
       position: relative;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform .65s cubic-bezier(.4,0,.2,1);
+      border-radius: 16px;
     }
-    /* Fallback gradients — shown when no image is set */
-    #img-logos  { background: linear-gradient(135deg,#1a0e38,#3d1f6e); }
-    #img-brand  { background: linear-gradient(135deg,#0a1a12,#143020); }
-    #img-social { background: linear-gradient(135deg,#1a1006,#2e1e08); }
-    #img-web    { background: linear-gradient(135deg,#06101a,#0d1e2e); }
-    #img-print  { background: linear-gradient(135deg,#1a0a06,#2a1008); }
+    .const-card:hover .card-inner,
+    .const-card.flipped .card-inner { transform: rotateY(180deg); }
 
-    /* Dark overlay so label stays readable when image is set */
-    .card-visual::after {
-      content: '';
+    .card-front, .card-back {
       position: absolute;
       inset: 0;
-      background: rgba(4,5,26,0.38);
-      pointer-events: none;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: 1px solid var(--border);
+      overflow: hidden;
     }
-    .card-visual-label {
-      font-size: 1.6rem;
-      font-weight: 200;
-      letter-spacing: .15em;
-      position: relative;
-      z-index: 1;
+    .card-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: rgba(255,255,255,.03);
+    }
+    .const-card:hover .card-front,
+    .const-card:hover .card-back { border-color: rgba(196,168,255,.4); }
+
+    /* Front gradient backgrounds */
+    #card-logos .card-front  { background: linear-gradient(135deg,#1a0e38,#3d1f6e); }
+    #card-brand .card-front  { background: linear-gradient(135deg,#0a1a12,#143020); }
+    #card-social .card-front { background: linear-gradient(135deg,#1a1006,#2e1e08); }
+    #card-web .card-front    { background: linear-gradient(135deg,#06101a,#0d1e2e); }
+    #card-print .card-front  { background: linear-gradient(135deg,#1a0a06,#2a1008); }
+
+    /* Back gradient backgrounds */
+    #card-logos .card-back   { background: linear-gradient(135deg,#14082e,#2d1658); }
+    #card-brand .card-back   { background: linear-gradient(135deg,#091610,#102418); }
+    #card-social .card-back  { background: linear-gradient(135deg,#181007,#241808); }
+    #card-web .card-back     { background: linear-gradient(135deg,#040c14,#0a1824); }
+    #card-print .card-back   { background: linear-gradient(135deg,#140604,#200c06); }
+
+    .front-symbol {
+      font-size: 2.8rem;
+      line-height: 1;
+      opacity: .6;
+    }
+    .front-cat {
+      font-size: .6rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      font-family: sans-serif;
+    }
+    .front-hint {
+      font-size: .48rem;
+      letter-spacing: .14em;
+      font-family: sans-serif;
+      color: rgba(240,236,255,.2);
+      margin-top: .3rem;
     }
 
-    .card-body { padding: 1.3rem 1.5rem 1.5rem; }
+    /* Accent colours per card */
+    #card-logos  .front-symbol, #card-logos  .front-cat  { color: #c4a8ff; }
+    #card-brand  .front-symbol, #card-brand  .front-cat  { color: #8de8d8; }
+    #card-social .front-symbol, #card-social .front-cat  { color: #d4a847; }
+    #card-web    .front-symbol, #card-web    .front-cat  { color: #c4a8ff; }
+    #card-print  .front-symbol, #card-print  .front-cat  { color: #d4a847; }
+    #card-logos  .card-link { color: #c4a8ff; }
+    #card-brand  .card-link { color: #8de8d8; }
+    #card-social .card-link { color: #d4a847; }
+    #card-web    .card-link { color: #c4a8ff; }
+    #card-print  .card-link { color: #d4a847; }
+
     .card-tag {
       font-size: .6rem;
       letter-spacing: .28em;
@@ -479,6 +507,10 @@
 
     /* ── CONTACT ── */
     #contact { background: rgba(4,5,26,.9); }
+    #contact .sec-inner { text-align: center; }
+    #contact .sec-eyebrow,
+    #contact .sec-title { text-align: center; }
+    #contact .sec-body { text-align: center; max-width: 520px; margin-left: auto; margin-right: auto; }
     .mission-ctrl {
       border: 1px solid var(--border);
       border-radius: 20px;
@@ -486,6 +518,8 @@
       background: rgba(255,255,255,.02);
       margin-top: 3rem;
       max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .ctrl-header {
       display: flex;
@@ -556,6 +590,7 @@
       display: flex;
       gap: 2rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
     .contact-alt {
       font-size: .78rem;
@@ -617,7 +652,28 @@
 <!-- ── NAVIGATION ── -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">Solstice <span>Illumina</span></a>
+    <a class="nav-logo" href="#">
+      <svg viewBox="0 0 80 80" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="37" stroke="rgba(196,168,255,0.5)" stroke-width="1.2"/>
+        <ellipse cx="40" cy="40" rx="25" ry="9" stroke="rgba(196,168,255,0.7)" stroke-width="1.2" transform="rotate(-28 40 40)"/>
+        <circle cx="40" cy="40" r="8" fill="url(#ng)"/>
+        <circle cx="40" cy="4" r="2.8" fill="#c4a8ff" opacity="1"/>
+        <circle cx="69" cy="54" r="2" fill="#d4a847" opacity="1"/>
+        <circle cx="14" cy="26" r="1.5" fill="#8de8d8" opacity="1"/>
+        <line x1="40" y1="16" x2="40" y2="22" stroke="rgba(196,168,255,0.7)" stroke-width="1"/>
+        <line x1="40" y1="58" x2="40" y2="64" stroke="rgba(196,168,255,0.7)" stroke-width="1"/>
+        <line x1="16" y1="40" x2="22" y2="40" stroke="rgba(196,168,255,0.7)" stroke-width="1"/>
+        <line x1="58" y1="40" x2="64" y2="40" stroke="rgba(196,168,255,0.7)" stroke-width="1"/>
+        <defs>
+          <radialGradient id="ng" cx="38%" cy="34%">
+            <stop offset="0%" stop-color="#e8d8ff"/>
+            <stop offset="55%" stop-color="#9b59d8"/>
+            <stop offset="100%" stop-color="#4a2080"/>
+          </radialGradient>
+        </defs>
+      </svg>
+      Solstice <span>Illumina</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#portfolio">Work</a></li>
       <li><a href="#cases">Case Studies</a></li>
@@ -681,101 +737,87 @@
     <div class="constellation-grid">
 
       <!-- CARD 1 · Logo Collection -->
-      <div class="const-card">
-        <!--
-          IMAGE SLOT: #img-logos
-          Suggested image: export of your logo collection (Mind Heart Finance,
-          By Vanessa, Selección d'España, etc.) on a dark background.
-          File: images/logos.jpg
-          To activate: add  style="background-image:url('images/logos.jpg')"  to the div below
-        -->
-        <div class="card-visual" id="img-logos">
-          <span class="card-visual-label" style="color:#c4a8ff">Logos</span>
-        </div>
-        <div class="card-body">
-          <p class="card-tag">Brand Identity · Logo Design</p>
-          <h3 class="card-title">Logo Collection</h3>
-          <p class="card-desc">Brand marks for small businesses and personal brands — Mind Heart Finance, By Vanessa, Selección d'España, and more. Simple forms, legible across print and digital.</p>
-          <a class="card-link" href="#">View collection <span>→</span></a>
+      <div class="const-card" id="card-logos">
+        <div class="card-inner">
+          <div class="card-front">
+            <div class="front-symbol">◎</div>
+            <div class="front-cat">Logos</div>
+            <div class="front-hint">hover to reveal</div>
+          </div>
+          <div class="card-back">
+            <p class="card-tag">Brand Identity · Logo Design</p>
+            <h3 class="card-title">Logo Collection</h3>
+            <p class="card-desc">Brand marks for small businesses and personal brands — Mind Heart Finance, By Vanessa, Selección d'España, and more. Simple forms, legible across print and digital.</p>
+            <a class="card-link" href="#">View collection →</a>
+          </div>
         </div>
       </div>
 
       <!-- CARD 2 · Brand Identity Systems -->
-      <div class="const-card">
-        <!--
-          IMAGE SLOT: #img-brand
-          Suggested image: screenshot of the Mind Heart Finance or By Vanessa
-          brand identity page (logo + palette + content pillars).
-          File: images/brand-identity.jpg
-          To activate: add  style="background-image:url('images/brand-identity.jpg')"  to the div below
-        -->
-        <div class="card-visual" id="img-brand">
-          <span class="card-visual-label" style="color:#8de8d8">Brand</span>
-        </div>
-        <div class="card-body">
-          <p class="card-tag">Brand Strategy · Social</p>
-          <h3 class="card-title">Brand Identity Systems</h3>
-          <p class="card-desc">Full brand packages for two clients — logo, color palette, target audience analysis, Instagram content pillars, and post mockups aligned to each brand's voice.</p>
-          <a class="card-link" href="#">View project <span>→</span></a>
+      <div class="const-card" id="card-brand">
+        <div class="card-inner">
+          <div class="card-front">
+            <div class="front-symbol">✦</div>
+            <div class="front-cat">Brand</div>
+            <div class="front-hint">hover to reveal</div>
+          </div>
+          <div class="card-back">
+            <p class="card-tag">Brand Strategy · Social</p>
+            <h3 class="card-title">Brand Identity Systems</h3>
+            <p class="card-desc">Full brand packages for two clients — logo, color palette, target audience analysis, Instagram content pillars, and post mockups aligned to each brand's voice.</p>
+            <a class="card-link" href="#">View project →</a>
+          </div>
         </div>
       </div>
 
       <!-- CARD 3 · Instagram Content -->
-      <div class="const-card">
-        <!--
-          IMAGE SLOT: #img-social
-          Suggested image: collage or grid of your best Instagram post mockups
-          for Mind Heart Finance and By Vanessa.
-          File: images/social-media.jpg
-          To activate: add  style="background-image:url('images/social-media.jpg')"  to the div below
-        -->
-        <div class="card-visual" id="img-social">
-          <span class="card-visual-label" style="color:#d4a847">Social</span>
-        </div>
-        <div class="card-body">
-          <p class="card-tag">Social Media · Content Design</p>
-          <h3 class="card-title">Instagram Content — 2 Brands</h3>
-          <p class="card-desc">Carousel layouts and feed visuals for Mind Heart Finance and By Vanessa — each aligned to their identity, audience, and content strategy.</p>
-          <a class="card-link" href="#">View project <span>→</span></a>
+      <div class="const-card" id="card-social">
+        <div class="card-inner">
+          <div class="card-front">
+            <div class="front-symbol">◈</div>
+            <div class="front-cat">Social</div>
+            <div class="front-hint">hover to reveal</div>
+          </div>
+          <div class="card-back">
+            <p class="card-tag">Social Media · Content Design</p>
+            <h3 class="card-title">Instagram Content — 2 Brands</h3>
+            <p class="card-desc">Carousel layouts and feed visuals for Mind Heart Finance and By Vanessa — each aligned to their identity, audience, and content strategy.</p>
+            <a class="card-link" href="#">View project →</a>
+          </div>
         </div>
       </div>
 
       <!-- CARD 4 · Web / Landing Pages -->
-      <div class="const-card">
-        <!--
-          IMAGE SLOT: #img-web
-          Suggested image: screenshot of a landing page or website you've designed.
-          File: images/web-design.jpg
-          To activate: add  style="background-image:url('images/web-design.jpg')"  to the div below
-        -->
-        <div class="card-visual" id="img-web">
-          <span class="card-visual-label" style="color:#c4a8ff">Web</span>
-        </div>
-        <div class="card-body">
-          <p class="card-tag">Web Design · Landing Pages</p>
-          <h3 class="card-title">Website &amp; Landing Page Design</h3>
-          <p class="card-desc">Responsive landing pages and website structures built for small businesses — clear UX, strong hierarchy, and layouts that convert visitors into clients.</p>
-          <a class="card-link" href="#">View project <span>→</span></a>
+      <div class="const-card" id="card-web">
+        <div class="card-inner">
+          <div class="card-front">
+            <div class="front-symbol">◉</div>
+            <div class="front-cat">Web</div>
+            <div class="front-hint">hover to reveal</div>
+          </div>
+          <div class="card-back">
+            <p class="card-tag">Web Design · Landing Pages</p>
+            <h3 class="card-title">Website &amp; Landing Page Design</h3>
+            <p class="card-desc">Responsive landing pages and website structures built for small businesses — clear UX, strong hierarchy, and layouts that convert visitors into clients.</p>
+            <a class="card-link" href="#">View project →</a>
+          </div>
         </div>
       </div>
 
       <!-- CARD 5 · Print & Promotional -->
-      <div class="const-card">
-        <!--
-          IMAGE SLOT: #img-print
-          Suggested image: the My Bali Coffee flyer, NEXTRA product card,
-          or Bali Invest event graphic — whichever looks best as a crop.
-          File: images/print-graphics.jpg
-          To activate: add  style="background-image:url('images/print-graphics.jpg')"  to the div below
-        -->
-        <div class="card-visual" id="img-print">
-          <span class="card-visual-label" style="color:#d4a847">Print</span>
-        </div>
-        <div class="card-body">
-          <p class="card-tag">Graphic Design · Print &amp; Digital</p>
-          <h3 class="card-title">Flyers &amp; Promotional Graphics</h3>
-          <p class="card-desc">Promotional flyer for My Bali Coffee (German market), event graphic for Bali Invest Insights, and product information card for NEXTRA wearables.</p>
-          <a class="card-link" href="#">View project <span>→</span></a>
+      <div class="const-card" id="card-print">
+        <div class="card-inner">
+          <div class="card-front">
+            <div class="front-symbol">◇</div>
+            <div class="front-cat">Print</div>
+            <div class="front-hint">hover to reveal</div>
+          </div>
+          <div class="card-back">
+            <p class="card-tag">Graphic Design · Print &amp; Digital</p>
+            <h3 class="card-title">Flyers &amp; Promotional Graphics</h3>
+            <p class="card-desc">Promotional flyer for My Bali Coffee (German market), event graphic for Bali Invest Insights, and product information card for NEXTRA wearables.</p>
+            <a class="card-link" href="#">View project →</a>
+          </div>
         </div>
       </div>
 
@@ -1012,18 +1054,10 @@
     scrollGlow *= 0.96; /* decay scroll brightness smoothly */
     ctx.clearRect(0, 0, W, H);
     const yOff = H * 0.28 + window.scrollY * 0.12 + my * H * 0.12;
-    aurora(yOff,       268, 0.052, 0);
-    aurora(yOff + 65,  242, 0.042, 1.3);
-    aurora(yOff + 125, 278, 0.032, 2.6);
-    aurora(yOff + 35,  178, 0.026, 0.9);
-    /* Soft glow that follows the cursor — brightens the dark canvas around pointer */
-    const gx = mx * W, gy = my * H;
-    const cg = ctx.createRadialGradient(gx, gy, 0, gx, gy, 220);
-    cg.addColorStop(0,   'rgba(196,168,255,0.10)');
-    cg.addColorStop(0.4, 'rgba(140,100,230,0.04)');
-    cg.addColorStop(1,   'rgba(196,168,255,0)');
-    ctx.fillStyle = cg;
-    ctx.fillRect(0, 0, W, H);
+    aurora(yOff,       268, 0.022, 0);
+    aurora(yOff + 65,  242, 0.016, 1.3);
+    aurora(yOff + 125, 278, 0.012, 2.6);
+    aurora(yOff + 35,  178, 0.010, 0.9);
     /* Stars — illuminate when scrolling */
     for (const s of stars) {
       const twinkle = Math.sin(ts * s.spd + s.ph) * 0.38 + 0.62;
