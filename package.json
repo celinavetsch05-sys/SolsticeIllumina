@@ -1,0 +1,14 @@
+{
+  "name": "solstice-illumina",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "resend": "^3.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
