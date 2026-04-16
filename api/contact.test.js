@@ -59,3 +59,15 @@ test('project field is optional', async () => {
   await handler(req, res);
   expect(res.statusCode).toBe(200);
 });
+
+test('returns 500 when Resend throws', async () => {
+  const { Resend } = require('resend');
+  // The module-level `resend` singleton was created at require time.
+  // Reach into the mock instance and make send reject for this one call.
+  const mockInstance = Resend.mock.results[0].value;
+  mockInstance.emails.send.mockRejectedValueOnce(new Error('API down'));
+  const { req, res } = makeReqRes({ name: 'Test', email: 'a@b.com', message: 'hello' });
+  await handler(req, res);
+  expect(res.statusCode).toBe(500);
+  expect(res.body.error).toBeTruthy();
+});
