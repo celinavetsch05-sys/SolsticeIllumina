@@ -81,6 +81,11 @@
       justify-content: space-between;
       align-items: center;
     }
+    .nav-inner .nav-links {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
     .nav-logo {
       font-size: 1.05rem;
       font-weight: 300;
@@ -707,7 +712,6 @@
       <li><a href="#portfolio">Work</a></li>
       <li><a href="#cases-first">Case Studies</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
   </div>
