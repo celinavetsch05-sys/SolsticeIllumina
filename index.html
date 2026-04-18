@@ -279,8 +279,8 @@
     }
     /* ── FLIP CARDS ── */
     .const-card {
-      perspective: 900px;
-      height: 240px;
+      perspective: 1000px;
+      height: 260px;
       cursor: pointer;
     }
     .card-inner {
@@ -288,8 +288,8 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
-      transition: transform .65s cubic-bezier(.4,0,.2,1);
-      border-radius: 16px;
+      transition: transform .7s cubic-bezier(.4,0,.2,1), box-shadow .4s ease;
+      border-radius: 20px;
     }
     .const-card:hover .card-inner,
     .const-card.flipped .card-inner { transform: rotateY(180deg); }
@@ -297,110 +297,134 @@
     .card-front, .card-back {
       position: absolute;
       inset: 0;
-      border-radius: 16px;
+      border-radius: 20px;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      border: 1px solid var(--border);
       overflow: hidden;
+      background: rgba(8, 6, 32, 0.6);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(196,168,255,0.1);
+      transition: border-color .3s;
     }
     .card-front {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: .5rem;
+      gap: .9rem;
     }
+    /* Radial glow orb behind icon */
+    .card-front::before {
+      content: '';
+      position: absolute;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.55;
+      transition: opacity .4s;
+    }
+    .const-card:hover .card-front::before { opacity: 0.9; }
+    #card-logos  .card-front::before { background: radial-gradient(circle, rgba(196,168,255,0.28) 0%, transparent 70%); }
+    #card-brand  .card-front::before { background: radial-gradient(circle, rgba(141,232,216,0.22) 0%, transparent 70%); }
+    #card-social .card-front::before { background: radial-gradient(circle, rgba(212,168,71,0.22)  0%, transparent 70%); }
+    #card-web    .card-front::before { background: radial-gradient(circle, rgba(126,200,255,0.22) 0%, transparent 70%); }
+    #card-print  .card-front::before { background: radial-gradient(circle, rgba(255,180,80,0.2)   0%, transparent 70%); }
+
     .card-back {
       transform: rotateY(180deg);
-      padding: 1.5rem;
+      padding: 1.6rem;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      background: rgba(255,255,255,.03);
     }
-    .const-card:hover .card-front,
-    .const-card:hover .card-back { border-color: rgba(196,168,255,.4); }
 
-    /* Front gradient backgrounds */
-    #card-logos .card-front  { background: linear-gradient(135deg,#1a0e38,#3d1f6e); }
-    #card-brand .card-front  { background: linear-gradient(135deg,#0a1a12,#143020); }
-    #card-social .card-front { background: linear-gradient(135deg,#1a1006,#2e1e08); }
-    #card-web .card-front    { background: linear-gradient(135deg,#06101a,#0d1e2e); }
-    #card-print .card-front  { background: linear-gradient(135deg,#1a0a06,#2a1008); }
+    /* Per-card accent: border + hover glow */
+    #card-logos  .card-front, #card-logos  .card-back { border-color: rgba(196,168,255,0.18); }
+    #card-brand  .card-front, #card-brand  .card-back { border-color: rgba(141,232,216,0.18); }
+    #card-social .card-front, #card-social .card-back { border-color: rgba(212,168,71,0.18);  }
+    #card-web    .card-front, #card-web    .card-back { border-color: rgba(126,200,255,0.18); }
+    #card-print  .card-front, #card-print  .card-back { border-color: rgba(255,180,80,0.18);  }
 
-    /* Back gradient backgrounds */
-    #card-logos .card-back   { background: linear-gradient(135deg,#14082e,#2d1658); }
-    #card-brand .card-back   { background: linear-gradient(135deg,#091610,#102418); }
-    #card-social .card-back  { background: linear-gradient(135deg,#181007,#241808); }
-    #card-web .card-back     { background: linear-gradient(135deg,#040c14,#0a1824); }
-    #card-print .card-back   { background: linear-gradient(135deg,#140604,#200c06); }
+    #card-logos:hover  .card-inner { box-shadow: 0 0 55px rgba(196,168,255,0.28), 0 8px 32px rgba(0,0,0,0.5); }
+    #card-brand:hover  .card-inner { box-shadow: 0 0 55px rgba(141,232,216,0.22), 0 8px 32px rgba(0,0,0,0.5); }
+    #card-social:hover .card-inner { box-shadow: 0 0 55px rgba(212,168,71,0.22),  0 8px 32px rgba(0,0,0,0.5); }
+    #card-web:hover    .card-inner { box-shadow: 0 0 55px rgba(126,200,255,0.22), 0 8px 32px rgba(0,0,0,0.5); }
+    #card-print:hover  .card-inner { box-shadow: 0 0 55px rgba(255,180,80,0.2),   0 8px 32px rgba(0,0,0,0.5); }
 
-    .front-symbol {
-      font-size: 2.8rem;
-      line-height: 1;
-      opacity: .6;
+    /* Icon */
+    .front-icon {
+      position: relative;
+      width: 42px; height: 42px;
+      transition: transform .35s ease;
     }
+    .const-card:hover .front-icon { transform: scale(1.1); }
+    #card-logos  .front-icon { color: #c4a8ff; }
+    #card-brand  .front-icon { color: #8de8d8; }
+    #card-social .front-icon { color: #d4a847; }
+    #card-web    .front-icon { color: #7ec8ff; }
+    #card-print  .front-icon { color: #ffb450; }
+
     .front-cat {
+      position: relative;
       font-size: .6rem;
       letter-spacing: .3em;
       text-transform: uppercase;
       font-family: sans-serif;
+      font-weight: 400;
     }
+    #card-logos  .front-cat { color: #c4a8ff; }
+    #card-brand  .front-cat { color: #8de8d8; }
+    #card-social .front-cat { color: #d4a847; }
+    #card-web    .front-cat { color: #7ec8ff; }
+    #card-print  .front-cat { color: #ffb450; }
+
     .front-hint {
-      font-size: .48rem;
-      letter-spacing: .14em;
+      position: relative;
+      font-size: .46rem;
+      letter-spacing: .18em;
       font-family: sans-serif;
       color: rgba(240,236,255,.2);
-      margin-top: .3rem;
     }
-
-    /* Accent colours per card */
-    #card-logos  .front-symbol, #card-logos  .front-cat  { color: #c4a8ff; }
-    #card-brand  .front-symbol, #card-brand  .front-cat  { color: #8de8d8; }
-    #card-social .front-symbol, #card-social .front-cat  { color: #d4a847; }
-    #card-web    .front-symbol, #card-web    .front-cat  { color: #c4a8ff; }
-    #card-print  .front-symbol, #card-print  .front-cat  { color: #d4a847; }
-    #card-logos  .card-link { color: #c4a8ff; }
-    #card-brand  .card-link { color: #8de8d8; }
-    #card-social .card-link { color: #d4a847; }
-    #card-web    .card-link { color: #c4a8ff; }
-    #card-print  .card-link { color: #d4a847; }
 
     .card-tag {
-      font-size: .6rem;
-      letter-spacing: .28em;
+      font-size: .58rem;
+      letter-spacing: .25em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(240,236,255,0.35);
       font-family: sans-serif;
-      margin-bottom: .55rem;
+      margin-bottom: .5rem;
     }
     .card-title {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 300;
       color: var(--stardust);
-      letter-spacing: .04em;
-      margin-bottom: .45rem;
+      letter-spacing: .03em;
+      margin-bottom: .55rem;
     }
     .card-desc {
-      font-size: .8rem;
-      color: var(--muted);
-      line-height: 1.7;
+      font-size: .79rem;
+      color: rgba(240,236,255,0.72);
+      line-height: 1.72;
       font-family: sans-serif;
       font-weight: 300;
+      margin-bottom: .6rem;
     }
     .card-link {
       display: inline-flex;
       align-items: center;
       gap: .4rem;
-      margin-top: .9rem;
-      font-size: .66rem;
+      font-size: .64rem;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: var(--lumina);
       font-family: sans-serif;
       text-decoration: none;
       transition: gap .2s;
     }
+    #card-logos  .card-link { color: #c4a8ff; }
+    #card-brand  .card-link { color: #8de8d8; }
+    #card-social .card-link { color: #d4a847; }
+    #card-web    .card-link { color: #7ec8ff; }
+    #card-print  .card-link { color: #ffb450; }
     .card-link:hover { gap: .7rem; }
 
     /* ── CASE STUDIES ── */
@@ -775,8 +799,8 @@
 <section id="portfolio">
   <div class="sec-inner">
     <p class="sec-eyebrow">01 · Selected Work</p>
-    <h2 class="sec-title">The <em>constellation</em></h2>
-    <p class="sec-body">Brands, graphics, and digital work built for real clients — each one a different problem, the same commitment to clarity and craft.</p>
+    <h2 class="sec-title">Selected <em>Work</em></h2>
+    <p class="sec-body">Projects across brand identity, web design, and content.<br>Each one built around a specific problem and a clear outcome.</p>
 
     <div class="constellation-grid">
 
@@ -784,14 +808,14 @@
       <div class="const-card" id="card-logos">
         <div class="card-inner">
           <div class="card-front">
-            <div class="front-symbol">◎</div>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/></svg>
             <div class="front-cat">Logos</div>
-            <div class="front-hint">hover to reveal</div>
+            <div class="front-hint">hover to explore</div>
           </div>
           <div class="card-back">
             <p class="card-tag">Brand Identity · Logo Design</p>
-            <h3 class="card-title">Logo Collection</h3>
-            <p class="card-desc">Brand marks for small businesses and personal brands — Mind Heart Finance, By Vanessa, Selección d'España, and more. Simple forms, legible across print and digital.</p>
+            <h3 class="card-title">Logos</h3>
+            <p class="card-desc">Brand marks for small businesses and personal brands across different industries.<br>Built to read clearly at any size, across print and digital.</p>
             <a class="card-link" href="#">View collection →</a>
           </div>
         </div>
@@ -801,14 +825,14 @@
       <div class="const-card" id="card-brand">
         <div class="card-inner">
           <div class="card-front">
-            <div class="front-symbol">✦</div>
-            <div class="front-cat">Brand</div>
-            <div class="front-hint">hover to reveal</div>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <div class="front-cat">Brand Identity</div>
+            <div class="front-hint">hover to explore</div>
           </div>
           <div class="card-back">
             <p class="card-tag">Brand Strategy · Social</p>
-            <h3 class="card-title">Brand Identity Systems</h3>
-            <p class="card-desc">Full brand packages for two clients — logo, color palette, target audience analysis, Instagram content pillars, and post mockups aligned to each brand's voice.</p>
+            <h3 class="card-title">Brand Identity</h3>
+            <p class="card-desc">Full brand systems — logo, color palette, audience analysis, and content pillars.<br>So every touchpoint feels like the same brand, not a collection of separate assets.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -818,14 +842,14 @@
       <div class="const-card" id="card-social">
         <div class="card-inner">
           <div class="card-front">
-            <div class="front-symbol">◈</div>
-            <div class="front-cat">Social</div>
-            <div class="front-hint">hover to reveal</div>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            <div class="front-cat">Social Content</div>
+            <div class="front-hint">hover to explore</div>
           </div>
           <div class="card-back">
             <p class="card-tag">Social Media · Content Design</p>
-            <h3 class="card-title">Instagram Content — 2 Brands</h3>
-            <p class="card-desc">Carousel layouts and feed visuals for Mind Heart Finance and By Vanessa — each aligned to their identity, audience, and content strategy.</p>
+            <h3 class="card-title">Social Content</h3>
+            <p class="card-desc">Carousel layouts and feed visuals for multiple clients.<br>Each post designed around their audience — what they need to see, not just what looks good.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -835,14 +859,14 @@
       <div class="const-card" id="card-web">
         <div class="card-inner">
           <div class="card-front">
-            <div class="front-symbol">◉</div>
-            <div class="front-cat">Web</div>
-            <div class="front-hint">hover to reveal</div>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div class="front-cat">Web Design</div>
+            <div class="front-hint">hover to explore</div>
           </div>
           <div class="card-back">
             <p class="card-tag">Web Design · Landing Pages</p>
-            <h3 class="card-title">Website &amp; Landing Page Design</h3>
-            <p class="card-desc">Responsive landing pages and website structures built for small businesses — clear UX, strong hierarchy, and layouts that convert visitors into clients.</p>
+            <h3 class="card-title">Web Design</h3>
+            <p class="card-desc">Responsive websites and landing pages for small businesses.<br>Clear hierarchy and structure — built so visitors know what to do next.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -852,14 +876,14 @@
       <div class="const-card" id="card-print">
         <div class="card-inner">
           <div class="card-front">
-            <div class="front-symbol">◇</div>
-            <div class="front-cat">Print</div>
-            <div class="front-hint">hover to reveal</div>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            <div class="front-cat">Print & Promo</div>
+            <div class="front-hint">hover to explore</div>
           </div>
           <div class="card-back">
             <p class="card-tag">Graphic Design · Print &amp; Digital</p>
-            <h3 class="card-title">Flyers &amp; Promotional Graphics</h3>
-            <p class="card-desc">Promotional flyer for My Bali Coffee (German market), event graphic for Bali Invest Insights, and product information card for NEXTRA wearables.</p>
+            <h3 class="card-title">Print &amp; Promotional</h3>
+            <p class="card-desc">Flyers, event graphics, and product information cards for various clients.<br>Built for specific markets and contexts — not generic templates.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
