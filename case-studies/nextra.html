@@ -3,8 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEXTRA — Celina Vetsch</title>
+  <title>Graphic Design — Celina Vetsch</title>
   <link rel="stylesheet" href="case-study.css">
+  <style>
+    /* Misc gallery grid */
+    .cs-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .cs-gallery-item {
+      border-radius: 10px;
+      overflow: hidden;
+      background: #0a0b1e;
+      border: 1px solid rgba(107,63,160,0.2);
+    }
+    .cs-gallery-item img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .cs-gallery-caption {
+      padding: 0.6rem 0.8rem 0.75rem;
+      font-size: 0.78rem;
+      color: rgba(240,236,255,0.65);
+      letter-spacing: 0.04em;
+    }
+    .cs-gallery-caption strong {
+      display: block;
+      color: var(--stardust);
+      font-size: 0.85rem;
+      margin-bottom: 0.15rem;
+    }
+    .cs-gallery-item.span-2 {
+      grid-column: span 2;
+    }
+    /* University section */
+    .cs-uni-wrap {
+      margin-top: 1.25rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(107,63,160,0.25);
+      background: #07091c;
+    }
+    .cs-uni-canvas-wrap {
+      background: #f5f5f0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+      max-height: 520px;
+    }
+    .cs-uni-canvas-wrap canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .cs-uni-meta {
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: rgba(240,236,255,0.65);
+    }
+    .cs-uni-meta strong {
+      color: var(--stardust);
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    @media (max-width: 768px) {
+      .cs-gallery {
+        grid-template-columns: 1fr;
+      }
+      .cs-gallery-item.span-2 {
+        grid-column: span 1;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -31,96 +106,126 @@
       <a class="cs-sidebar-back" href="/#cases">← Case Studies</a>
       <div class="cs-sidebar-card">
         <div class="cs-sidebar-card-title">Scope</div>
-        <div class="cs-sidebar-card-body">Product card, print layout</div>
+        <div class="cs-sidebar-card-body">Posters, Logo Design, Product Cards, Branding</div>
       </div>
       <div class="cs-sidebar-card">
-        <div class="cs-sidebar-card-title">Year</div>
-        <div class="cs-sidebar-card-body">2024</div>
+        <div class="cs-sidebar-card-title">Years</div>
+        <div class="cs-sidebar-card-body">2024 – 2026</div>
       </div>
       <div class="cs-sidebar-card">
-        <div class="cs-sidebar-card-title">Deliverable</div>
-        <div class="cs-sidebar-card-body">Print-ready product information card (digital + print)</div>
+        <div class="cs-sidebar-card-title">Deliverables</div>
+        <div class="cs-sidebar-card-body">Standalone design pieces across client and personal projects</div>
       </div>
     </aside>
 
     <article class="cs-main">
       <p class="sec-eyebrow">Case Study 03</p>
-      <h1 class="cs-title">NEXTRA — translating a product into a one-page visual story</h1>
+      <h1 class="cs-title">Graphic Design — standalone work across clients &amp; personal projects</h1>
       <div class="cs-tags">
-        <span class="case-tag">Product Design</span>
+        <span class="case-tag">Poster Design</span>
+        <span class="case-tag">Logo Design</span>
+        <span class="case-tag">Product Cards</span>
+        <span class="case-tag">Brand Identity</span>
         <span class="case-tag">Print</span>
-        <span class="case-tag">Layout</span>
       </div>
 
       <hr class="divider">
 
-      <!--
-        HERO IMAGE SLOT
-        Suggested: full product card at a slight angle on dark background
-        To activate: replace the style attribute with:
-          style="background-image: url('images/nextra-hero.jpg')"
-        and remove the placeholder text inside the div
-      -->
-      <div class="cs-hero" style="background: linear-gradient(135deg,#1a1208,#2a200e);">
-        Add hero image — images/nextra-hero.jpg
+      <div class="cs-hero" style="background: linear-gradient(135deg,#12100a,#221e0e);">
+        Add hero image
       </div>
 
       <hr class="divider">
 
       <div class="cs-section">
-        <p class="sec-eyebrow">The Brief</p>
-        <p class="sec-body">NEXTRA is a handmade neck protection scarf. The product card needed to explain its features and use cases quickly using icons and clean layout, for both print and digital distribution.</p>
+        <p class="sec-eyebrow">Overview</p>
+        <p class="sec-body">Not every design project fits neatly into one case study. This page collects standalone work I've done across different clients and contexts — event posters, logos, product cards, and personal branding. Each piece solved a specific communication problem: making a garage sale unmissable, giving a coaching brand an identity, or turning a product's three core qualities into a single, scannable card.</p>
       </div>
 
+      <hr class="divider">
+
+      <!-- POSTERS -->
       <div class="cs-section">
-        <p class="sec-eyebrow">Brand Colors</p>
-        <div class="cs-colors">
-          <div class="cs-swatch-wrap">
-            <div class="cs-swatch" style="background:#ffffff;"></div>
-            <span class="cs-swatch-hex">#ffffff</span>
+        <p class="sec-eyebrow">Event Posters — Flohmarkt / Garage Sale</p>
+        <p class="sec-body">Bilingual poster set for a garage sale event — German and English editions designed to be printed and shared digitally. The brief: legible at a glance, bold enough to stop a scroll.</p>
+        <div class="cs-gallery">
+          <div class="cs-gallery-item">
+            <img src="casestudy-miscellaneous/1.png" alt="Flohmarkt poster — German edition">
+            <div class="cs-gallery-caption">
+              <strong>Flohmarkt Poster</strong>
+              German edition
+            </div>
           </div>
-          <div class="cs-swatch-wrap">
-            <div class="cs-swatch" style="background:#f5f0e8;"></div>
-            <span class="cs-swatch-hex">#f5f0e8</span>
-          </div>
-          <div class="cs-swatch-wrap">
-            <!-- near-black swatch — border in CSS ensures visibility on --void background -->
-            <div class="cs-swatch" style="background:#2a2a2a;"></div>
-            <span class="cs-swatch-hex">#2a2a2a</span>
+          <div class="cs-gallery-item">
+            <img src="casestudy-miscellaneous/2.png" alt="Garage Sale poster — English edition">
+            <div class="cs-gallery-caption">
+              <strong>Garage Sale Poster</strong>
+              English edition
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- LOGOS -->
       <div class="cs-section">
-        <p class="sec-eyebrow">Work</p>
-        <div class="cs-work-grid">
-          <!--
-            IMAGE SLOT: Product card front
-            To activate: replace style with background-image: url('images/nextra-card.jpg')
-          -->
-          <div class="cs-work-img" style="background: linear-gradient(135deg,#1a1208,#2e2210);">
-            Product card — images/nextra-card.jpg
+        <p class="sec-eyebrow">Logo Design</p>
+        <div class="cs-gallery">
+          <div class="cs-gallery-item">
+            <img src="casestudy-miscellaneous/C.png" alt="Nuvé Design logo by Celina Vetsch">
+            <div class="cs-gallery-caption">
+              <strong>Nuvé Design</strong>
+              Personal brand mark — wave + circle system in sage green
+            </div>
           </div>
-          <!--
-            IMAGE SLOT: Icon detail / close-up of layout
-            To activate: replace style with background-image: url('images/nextra-detail.jpg')
-          -->
-          <div class="cs-work-img" style="background: linear-gradient(135deg,#12100a,#201c10);">
-            Icon detail — images/nextra-detail.jpg
+          <div class="cs-gallery-item">
+            <img src="casestudy-miscellaneous/Untitled design (1).png" alt="Selección D'España football crest">
+            <div class="cs-gallery-caption">
+              <strong>Selección D'España</strong>
+              Football crest design — red, gold &amp; navy
+            </div>
+          </div>
+          <div class="cs-gallery-item">
+            <img src="casestudy-miscellaneous/Untitled design (2).png" alt="Larcher & Fahrion logo">
+            <div class="cs-gallery-caption">
+              <strong>Larcher &amp; Fahrion</strong>
+              Logo for the vacation rental brand — door + Alps concept
+            </div>
+          </div>
+          <div class="cs-gallery-item">
+            <img src="casestudy-miscellaneous/NEXTRA.png" alt="NEXTRA product card">
+            <div class="cs-gallery-caption">
+              <strong>NEXTRA Product Card</strong>
+              Print-ready info card — breathable, stretchable neck &amp; face protector
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNIVERSITY WORK -->
+      <div class="cs-section">
+        <p class="sec-eyebrow">University Work</p>
+        <p class="sec-body">A visual rebranding concept for Ferrari — developed as a university assignment. The project reimagines the iconic motorsport brand through a contemporary design lens while preserving the essence of Italian performance heritage.</p>
+        <div class="cs-uni-wrap">
+          <div class="cs-uni-canvas-wrap" id="ferrari-canvas-wrap">
+            <div class="cs-swiper-loading">Loading preview…</div>
+          </div>
+          <div class="cs-uni-meta">
+            <strong>Ferrari Reimagined — Eine visuelle Neuentwicklung der Ikone im Motorsport</strong>
+            University assignment, 2025 · Visual brand strategy &amp; redesign concept
           </div>
         </div>
       </div>
 
       <div class="cs-section">
         <p class="sec-eyebrow">What I Learned</p>
-        <p class="sec-body">Information hierarchy in print is unforgiving — icons and layout do more work than words when a customer has seconds to decide.</p>
+        <p class="sec-body">Standalone design work taught me to be decisive fast. Without the buffer of a long brand strategy process, each piece — a poster, a logo, a product card — has to communicate its core message immediately. The constraint is clarifying: strip everything back to what the audience needs to understand in the first three seconds, then make that unavoidable.</p>
       </div>
 
       <div class="cs-case-nav">
         <a class="cs-nav-link prev" href="by-vanessa.html">
-          <span class="cs-nav-arrow">←</span> By Vanessa
+          <span class="cs-nav-arrow">←</span> Energie im Wachstum
         </a>
-        <a class="cs-nav-link next" href="bali-invest.html">
+        <a class="cs-nav-link next" href="larcher-fahrion.html">
           Next case <span class="cs-nav-arrow">→</span>
         </a>
       </div>
@@ -130,5 +235,36 @@
 </main>
 
 <script src="cosmic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function () {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  async function renderFirstPage(pdfPath, containerId) {
+    const wrap = document.getElementById(containerId);
+    try {
+      const pdf    = await pdfjsLib.getDocument(pdfPath).promise;
+      const page   = await pdf.getPage(1);
+      const vp     = page.getViewport({ scale: 1.6 });
+      const canvas = document.createElement('canvas');
+      canvas.width  = vp.width;
+      canvas.height = vp.height;
+      canvas.style.cssText = 'width:100%;height:auto;display:block;';
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+      wrap.innerHTML = '';
+      wrap.appendChild(canvas);
+    } catch (err) {
+      wrap.innerHTML = '<div class="cs-swiper-loading" style="color:var(--muted);padding:2rem;">Preview unavailable.</div>';
+      console.warn('PDF preview error:', err);
+    }
+  }
+
+  renderFirstPage(
+    'uniassignments/Ferrari%20Reimagined%20-%20Eine%20visuelle%20Neuentwicklung%20der%20Ikone%20im%20Motorsport.pdf',
+    'ferrari-canvas-wrap'
+  );
+})();
+</script>
 </body>
 </html>

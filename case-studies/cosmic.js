@@ -40,19 +40,11 @@ function frame(ts) {
   t = ts * 0.001;
   scrollGlow *= 0.96; /* decay scroll brightness smoothly */
   ctx.clearRect(0, 0, W, H);
-  const yOff = H * 0.28 + window.scrollY * 0.12 + my * H * 0.12;
+  const yOff = H * 0.28;
   aurora(yOff,       268, 0.052, 0);
   aurora(yOff + 65,  242, 0.042, 1.3);
   aurora(yOff + 125, 278, 0.032, 2.6);
   aurora(yOff + 35,  178, 0.026, 0.9);
-  /* Soft glow that follows the cursor — brightens the dark canvas around pointer */
-  const gx = mx * W, gy = my * H;
-  const cg = ctx.createRadialGradient(gx, gy, 0, gx, gy, 220);
-  cg.addColorStop(0,   'rgba(196,168,255,0.10)');
-  cg.addColorStop(0.4, 'rgba(140,100,230,0.04)');
-  cg.addColorStop(1,   'rgba(196,168,255,0)');
-  ctx.fillStyle = cg;
-  ctx.fillRect(0, 0, W, H);
   /* Stars — illuminate when scrolling */
   for (const s of stars) {
     const twinkle = Math.sin(ts * s.spd + s.ph) * 0.38 + 0.62;

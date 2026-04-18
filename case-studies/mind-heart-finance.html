@@ -54,22 +54,28 @@
 
       <hr class="divider">
 
-      <!--
-        HERO IMAGE SLOT
-        Suggested: brand system overview / logo on brand-colored background
-        To activate: replace the style attribute with:
-          style="background-image: url('images/mhf-hero.jpg')"
-        and remove the placeholder text inside the div
-      -->
       <div class="cs-hero" style="background: linear-gradient(135deg,#0d1a38,#1a2d58);">
-        Add hero image — images/mhf-hero.jpg
+        Add hero image
       </div>
 
       <hr class="divider">
 
       <div class="cs-section">
         <p class="sec-eyebrow">The Brief</p>
-        <p class="sec-body">A finance consulting brand needed a full identity that builds trust while staying approachable — logo, color palette, and Instagram content designed to attract and educate clients.</p>
+        <p class="sec-body">Mind Heart Finance Consulting needed a complete brand identity to establish credibility in the competitive finance space — logo, a trust-building color system, target audience analysis, and Instagram content that educates clients on complex topics like market volatility and long-term investing. The deliverable covered everything from brand strategy through to ready-to-post social templates.</p>
+      </div>
+
+      <div class="cs-section">
+        <p class="sec-eyebrow">Event Flyers — Bilingual</p>
+        <p class="sec-body" style="margin-bottom:1.2rem;">Designed in both English and German to reach a bilingual audience — same message, adapted for each market.</p>
+        <div class="cs-swiper" id="swiper-mhf-flyers" style="max-width:320px;margin:0 auto;">
+          <div class="cs-swiper-track" id="track-mhf-flyers">
+            <div class="cs-swiper-loading">Loading…</div>
+          </div>
+          <button class="cs-swiper-btn cs-swiper-prev" id="prev-mhf-flyers" aria-label="Previous">‹</button>
+          <button class="cs-swiper-btn cs-swiper-next" id="next-mhf-flyers" aria-label="Next">›</button>
+          <div class="cs-swiper-dots" id="dots-mhf-flyers"></div>
+        </div>
       </div>
 
       <div class="cs-section">
@@ -95,28 +101,23 @@
       </div>
 
       <div class="cs-section">
-        <p class="sec-eyebrow">Work</p>
-        <div class="cs-work-grid">
-          <!--
-            IMAGE SLOT: Logo lockup
-            To activate: replace style with background-image: url('images/mhf-logo.jpg')
-          -->
-          <div class="cs-work-img" style="background: linear-gradient(135deg,#1a0e38,#2a1a58);">
-            Logo lockup — images/mhf-logo.jpg
-          </div>
-          <!--
-            IMAGE SLOT: Instagram post example
-            To activate: replace style with background-image: url('images/mhf-social.jpg')
-          -->
-          <div class="cs-work-img" style="background: linear-gradient(135deg,#0a1a28,#0d2a40);">
-            Instagram post — images/mhf-social.jpg
-          </div>
+        <p class="sec-eyebrow">Instagram Posts</p>
+        <div class="cs-swiper" id="swiper-mhf">
+          <div class="cs-swiper-track" id="track-mhf"></div>
+          <button class="cs-swiper-btn cs-swiper-prev" id="prev-mhf" aria-label="Previous">‹</button>
+          <button class="cs-swiper-btn cs-swiper-next" id="next-mhf" aria-label="Next">›</button>
+          <div class="cs-swiper-dots" id="dots-mhf"></div>
+        </div>
+        <div style="margin-top:1rem;">
+          <a class="cs-live-btn" href="https://www.instagram.com/wissen.als.neue.waehrung?igsh=eGE4NmQxdjV4Ymph" target="_blank" rel="noopener">
+            View on Instagram →
+          </a>
         </div>
       </div>
 
       <div class="cs-section">
         <p class="sec-eyebrow">What I Learned</p>
-        <p class="sec-body">Designing for the finance space requires balancing authority with approachability — every color and type choice signals credibility to the client's audience. [Personalise with a specific design decision you made.]</p>
+        <p class="sec-body">Finance content works best when it turns anxiety into clarity. The Instagram posts I designed used simple visuals and direct copy to help clients see market volatility as context, not crisis — the same principle that drove every color and layout decision across the whole brand system.</p>
       </div>
 
       <div class="cs-case-nav">
@@ -131,5 +132,181 @@
 </main>
 
 <script src="cosmic.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function () {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  const PAGES = 5;
+
+  async function buildSwiper(pdfPath, trackId, dotsId, prevId, nextId) {
+    const track   = document.getElementById(trackId);
+    const dotsEl  = document.getElementById(dotsId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    let current = 0;
+    const dots = [];
+    try {
+      const pdf   = await pdfjsLib.getDocument(pdfPath).promise;
+      const total = Math.min(PAGES, pdf.numPages);
+      track.innerHTML = '';
+      for (let i = 1; i <= total; i++) {
+        const slide  = document.createElement('div');
+        slide.className = 'cs-swiper-slide';
+        const canvas = document.createElement('canvas');
+        slide.appendChild(canvas);
+        track.appendChild(slide);
+        const dot = document.createElement('button');
+        dot.className = 'cs-swiper-dot' + (i === 1 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Page ' + i);
+        dot.addEventListener('click', () => goTo(i - 1));
+        dotsEl.appendChild(dot);
+        dots.push(dot);
+        const page = await pdf.getPage(i);
+        const vp   = page.getViewport({ scale: 1.8 });
+        canvas.width  = vp.width;
+        canvas.height = vp.height;
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+      }
+      function goTo(idx) {
+        current = Math.max(0, Math.min(idx, total - 1));
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+      }
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      let tx = 0;
+      track.parentElement.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+      track.parentElement.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - tx;
+        if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+      });
+      goTo(0);
+    } catch (err) {
+      track.innerHTML = '<div class="cs-swiper-loading">Preview unavailable.</div>';
+      console.warn('PDF swiper error:', err);
+    }
+  }
+
+  (async function buildFlyerSwiper() {
+    const track   = document.getElementById('track-mhf-flyers');
+    const dotsEl  = document.getElementById('dots-mhf-flyers');
+    const prevBtn = document.getElementById('prev-mhf-flyers');
+    const nextBtn = document.getElementById('next-mhf-flyers');
+    const labels  = ['🇬🇧 EN', '🇩🇪 DE'];
+    const paths   = [
+      'casestudy-mindheartandfinance/Englisch.pdf',
+      'casestudy-mindheartandfinance/Deutsch%20.pdf'
+    ];
+    let current = 0;
+    const dots = [];
+    track.innerHTML = '';
+
+    for (let i = 0; i < paths.length; i++) {
+      const slide  = document.createElement('div');
+      slide.className = 'cs-swiper-slide';
+      const dot = document.createElement('button');
+      dot.className = 'cs-swiper-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', labels[i]);
+      dot.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(dot);
+      dots.push(dot);
+      try {
+        const pdf    = await pdfjsLib.getDocument(paths[i]).promise;
+        const page   = await pdf.getPage(1);
+        const vp     = page.getViewport({ scale: 1.6 });
+        const canvas = document.createElement('canvas');
+        canvas.width  = vp.width;
+        canvas.height = vp.height;
+        canvas.style.cssText = 'width:100%;height:auto;display:block;';
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+        slide.appendChild(canvas);
+      } catch (err) {
+        slide.innerHTML = '<div class="cs-swiper-loading">Preview unavailable.</div>';
+        console.warn('Flyer load error:', err);
+      }
+      track.appendChild(slide);
+    }
+
+    function goTo(idx) {
+      current = Math.max(0, Math.min(idx, paths.length - 1));
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === paths.length - 1;
+    }
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+    let tx = 0;
+    track.parentElement.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    track.parentElement.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    });
+    goTo(0);
+  })();
+})();
+</script>
+<script>
+(function () {
+  const images = [
+    'casestudy-mindheartandfinance/1.png',
+    'casestudy-mindheartandfinance/2.png',
+    'casestudy-mindheartandfinance/3.png',
+    'casestudy-mindheartandfinance/4.png',
+    'casestudy-mindheartandfinance/5.png',
+    'casestudy-mindheartandfinance/6.png',
+    'casestudy-mindheartandfinance/7.png'
+  ];
+
+  const track   = document.getElementById('track-mhf');
+  const dotsEl  = document.getElementById('dots-mhf');
+  const prevBtn = document.getElementById('prev-mhf');
+  const nextBtn = document.getElementById('next-mhf');
+  let current = 0;
+  const dots = [];
+
+  images.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'cs-swiper-slide';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Instagram post ' + (i + 1);
+    img.style.cssText = 'width:100%;display:block;';
+    slide.appendChild(img);
+    track.appendChild(slide);
+
+    const dot = document.createElement('button');
+    dot.className = 'cs-swiper-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Post ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(dot);
+    dots.push(dot);
+  });
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, images.length - 1));
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === images.length - 1;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  let tx = 0;
+  track.parentElement.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  track.parentElement.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+  });
+
+  goTo(0);
+})();
+</script>
 </body>
 </html>
