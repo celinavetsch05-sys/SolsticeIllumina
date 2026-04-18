@@ -18,7 +18,7 @@
       <li><a href="/#portfolio">Work</a></li>
       <li><a href="/#cases" class="active">Case Studies</a></li>
       <li><a href="/#about">About</a></li>
-      <li><a href="/#contact">Contact</a></li>
+
     </ul>
     <button class="nav-cta" onclick="window.location.href='/#contact'">Let's Talk</button>
   </div>
@@ -54,8 +54,17 @@
 
       <hr class="divider">
 
-      <div class="cs-hero" style="background: linear-gradient(135deg,#0d1a38,#1a2d58);">
-        Add hero image
+      <div class="cs-hero">
+        <div class="cs-hero-canvas"><canvas id="mhf-hero"></canvas></div>
+        <div class="cs-hero-text">
+          <div class="cs-hero-eyebrow">Case Study 01</div>
+          <h2 class="cs-hero-title">Mind Heart Finance</h2>
+          <div class="cs-hero-tags">
+            <span class="case-tag">Brand Identity</span>
+            <span class="case-tag">Logo Design</span>
+            <span class="case-tag">Social Content</span>
+          </div>
+        </div>
       </div>
 
       <hr class="divider">
@@ -306,6 +315,74 @@
   });
 
   goTo(0);
+})();
+</script>
+<script>
+/* Mind Heart Finance — network node animation */
+(function () {
+  const canvas = document.getElementById('mhf-hero');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [];
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    nodes = [];
+    for (let i = 0; i < 24; i++) {
+      nodes.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        r: Math.random() * 2 + 1.2
+      });
+    }
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#0b1628';
+    ctx.fillRect(0, 0, W, H);
+
+    for (const n of nodes) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < 110) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(80,140,200,${(1 - d/110) * 0.45})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const n of nodes) {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r * 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(100,170,240,0.07)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = '#7eb8ee';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>

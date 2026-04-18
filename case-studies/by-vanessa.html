@@ -18,7 +18,7 @@
       <li><a href="/#portfolio">Work</a></li>
       <li><a href="/#cases" class="active">Case Studies</a></li>
       <li><a href="/#about">About</a></li>
-      <li><a href="/#contact">Contact</a></li>
+
     </ul>
     <button class="nav-cta" onclick="window.location.href='/#contact'">Let's Talk</button>
   </div>
@@ -63,8 +63,17 @@
           style="background-image: url('images/vanessa-hero.jpg')"
         and remove the placeholder text inside the div
       -->
-      <div class="cs-hero" style="background: linear-gradient(135deg,#0a1a0d,#142a18);">
-        Add hero image — images/vanessa-hero.jpg
+      <div class="cs-hero">
+        <div class="cs-hero-canvas"><canvas id="van-hero"></canvas></div>
+        <div class="cs-hero-text">
+          <div class="cs-hero-eyebrow">Case Study 02</div>
+          <h2 class="cs-hero-title">Energie im Wachstum</h2>
+          <div class="cs-hero-tags">
+            <span class="case-tag">Brand Identity</span>
+            <span class="case-tag">Instagram</span>
+            <span class="case-tag">Content Strategy</span>
+          </div>
+        </div>
       </div>
 
       <hr class="divider">
@@ -303,6 +312,88 @@
     if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
   });
   goTo(0);
+})();
+</script>
+<script>
+/* Energie im Wachstum — floating orbs */
+(function () {
+  const canvas = document.getElementById('van-hero');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, orbs = [];
+
+  const PALETTE = ['#8a9e88','#b2bfb0','#7a8878','#c2ccc0','#9eada0'];
+
+  function initOrbs() {
+    orbs = [];
+    for (let i = 0; i < 5; i++) {
+      orbs.push({
+        x:     Math.random() * W,
+        y:     Math.random() * H,
+        r:     Math.min(W, H) * (Math.random() * 0.22 + 0.18),
+        vx:    (Math.random() - 0.5) * 0.18,
+        vy:    (Math.random() - 0.5) * 0.18,
+        color: PALETTE[i],
+        alpha: Math.random() * 0.18 + 0.12,
+        phase: Math.random() * Math.PI * 2,
+        pulse: Math.random() * 0.0008 + 0.0004
+      });
+    }
+  }
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    initOrbs();
+  }
+
+  function frame(ts) {
+    const t = ts * 0.001;
+    ctx.clearRect(0, 0, W, H);
+
+    /* deep background */
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#0c0d0e');
+    bg.addColorStop(1, '#101214');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    for (const o of orbs) {
+      /* gentle drift */
+      o.x += o.vx;
+      o.y += o.vy;
+      if (o.x < -o.r) o.x = W + o.r;
+      else if (o.x > W + o.r) o.x = -o.r;
+      if (o.y < -o.r) o.y = H + o.r;
+      else if (o.y > H + o.r) o.y = -o.r;
+
+      /* breathing radius */
+      const breathe = o.r * (1 + Math.sin(t * o.pulse * 1000 + o.phase) * 0.06);
+
+      const grad = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, breathe);
+      grad.addColorStop(0,   hexAlpha(o.color, o.alpha * 1.6));
+      grad.addColorStop(0.5, hexAlpha(o.color, o.alpha * 0.7));
+      grad.addColorStop(1,   hexAlpha(o.color, 0));
+
+      ctx.beginPath();
+      ctx.arc(o.x, o.y, breathe, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  function hexAlpha(hex, a) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a.toFixed(3)})`;
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>

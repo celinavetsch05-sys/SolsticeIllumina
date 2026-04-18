@@ -18,7 +18,7 @@
       <li><a href="/#portfolio">Work</a></li>
       <li><a href="/#cases" class="active">Case Studies</a></li>
       <li><a href="/#about">About</a></li>
-      <li><a href="/#contact">Contact</a></li>
+
     </ul>
     <button class="nav-cta" onclick="window.location.href='/#contact'">Let's Talk</button>
   </div>
@@ -51,6 +51,19 @@
         <span class="case-tag">Web Design</span>
         <span class="case-tag">Responsive Development</span>
         <span class="case-tag">SEO</span>
+      </div>
+
+      <div class="cs-hero">
+        <div class="cs-hero-canvas"><canvas id="lf-hero"></canvas></div>
+        <div class="cs-hero-text">
+          <div class="cs-hero-eyebrow">Case Study 04</div>
+          <h2 class="cs-hero-title">Larcher &amp; Fahrion</h2>
+          <div class="cs-hero-tags">
+            <span class="case-tag">Logo &amp; Branding</span>
+            <span class="case-tag">Web Design</span>
+            <span class="case-tag">SEO</span>
+          </div>
+        </div>
       </div>
 
       <hr class="divider">
@@ -155,5 +168,118 @@
 </main>
 
 <script src="cosmic.js"></script>
+<script>
+/* Larcher & Fahrion — mountain + aurora (rich version) */
+(function () {
+  const canvas = document.getElementById('lf-hero');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, t = 0, stars = [];
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    stars = [];
+    for (let i = 0; i < 90; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H * 0.65,
+        r: Math.random() * 1.1 + 0.2,
+        a: Math.random() * 0.7 + 0.2,
+        ph: Math.random() * Math.PI * 2,
+        spd: Math.random() * 0.003 + 0.001
+      });
+    }
+  }
+
+  function aurora(yBase, hue, sat, alpha, offset) {
+    ctx.beginPath();
+    for (let i = 0; i <= 20; i++) {
+      const x = (i / 20) * W;
+      const y = yBase
+        + Math.sin(i * 0.55 + t * 0.5  + offset)        * 38
+        + Math.sin(i * 0.22 + t * 0.28 + offset * 1.4)  * 24
+        + Math.sin(i * 0.9  + t * 0.18 + offset * 0.7)  * 12;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+    ctx.fillStyle = `hsla(${hue},${sat}%,52%,${alpha})`;
+    ctx.fill();
+  }
+
+  function snowCap(points, lightness) {
+    /* draw a bright highlight along the top peaks */
+    ctx.beginPath();
+    points.forEach(([x, y], i) => i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
+    ctx.strokeStyle = `rgba(220,235,248,${lightness})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  function mountains() {
+    const backPts = [
+      [0, H],[W*.07,H*.50],[W*.16,H*.64],[W*.27,H*.43],
+      [W*.37,H*.57],[W*.50,H*.38],[W*.63,H*.53],[W*.74,H*.40],
+      [W*.85,H*.55],[W*.94,H*.46],[W,H*.52],[W,H]
+    ];
+    const midPts = [
+      [0,H],[W*.06,H*.63],[W*.14,H*.72],[W*.24,H*.58],
+      [W*.34,H*.70],[W*.46,H*.55],[W*.56,H*.66],[W*.68,H*.57],
+      [W*.78,H*.68],[W*.88,H*.60],[W*.96,H*.65],[W,H*.62],[W,H]
+    ];
+    /* back range */
+    ctx.beginPath();
+    backPts.forEach(([x,y],i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+    ctx.closePath();
+    ctx.fillStyle = '#1e3348';
+    ctx.fill();
+    snowCap(backPts.slice(1, -2), 0.55);
+
+    /* mid range */
+    ctx.beginPath();
+    midPts.forEach(([x,y],i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+    ctx.closePath();
+    ctx.fillStyle = '#152536';
+    ctx.fill();
+    snowCap(midPts.slice(1, -2), 0.38);
+  }
+
+  function frame(ts) {
+    t = ts * 0.001;
+    ctx.clearRect(0, 0, W, H);
+
+    /* rich sky */
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0,   '#071525');
+    sky.addColorStop(0.5, '#0e2238');
+    sky.addColorStop(1,   '#1a3a58');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H);
+
+    /* stars */
+    for (const s of stars) {
+      const twinkle = Math.sin(t * s.spd * 1000 + s.ph) * 0.3 + 0.7;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220,235,255,${s.a * twinkle})`;
+      ctx.fill();
+    }
+
+    /* aurora — bolder, layered */
+    aurora(H * 0.22, 195, 65, 0.13, 0);
+    aurora(H * 0.28, 210, 60, 0.16, 1.2);
+    aurora(H * 0.35, 185, 70, 0.12, 2.5);
+    aurora(H * 0.25, 220, 55, 0.10, 0.6);
+    aurora(H * 0.32, 200, 68, 0.09, 3.1);
+
+    mountains();
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>

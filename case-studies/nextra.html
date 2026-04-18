@@ -93,7 +93,7 @@
       <li><a href="/#portfolio">Work</a></li>
       <li><a href="/#cases" class="active">Case Studies</a></li>
       <li><a href="/#about">About</a></li>
-      <li><a href="/#contact">Contact</a></li>
+
     </ul>
     <button class="nav-cta" onclick="window.location.href='/#contact'">Let's Talk</button>
   </div>
@@ -131,8 +131,17 @@
 
       <hr class="divider">
 
-      <div class="cs-hero" style="background: linear-gradient(135deg,#12100a,#221e0e);">
-        Add hero image
+      <div class="cs-hero">
+        <div class="cs-hero-canvas"><canvas id="nxt-hero"></canvas></div>
+        <div class="cs-hero-text">
+          <div class="cs-hero-eyebrow">Case Study 03</div>
+          <h2 class="cs-hero-title">Graphic Design</h2>
+          <div class="cs-hero-tags">
+            <span class="case-tag">Poster Design</span>
+            <span class="case-tag">Logo Design</span>
+            <span class="case-tag">Print</span>
+          </div>
+        </div>
       </div>
 
       <hr class="divider">
@@ -264,6 +273,152 @@
     'uniassignments/Ferrari%20Reimagined%20-%20Eine%20visuelle%20Neuentwicklung%20der%20Ikone%20im%20Motorsport.pdf',
     'ferrari-canvas-wrap'
   );
+})();
+</script>
+<script>
+/* Graphic Design — self-drawing grid + golden ratio + annotations */
+(function () {
+  const canvas = document.getElementById('nxt-hero');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, t = 0, prog = 0;
+  const PHI = 1.618;
+  const COLS = 8, ROWS = 5;
+
+  function c01(p, s, e) { return Math.max(0, Math.min(1, (p - s) / (e - s))); }
+  function ease(p) { return p < 0.5 ? 2*p*p : -1+(4-2*p)*p; }
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    prog = 0;
+  }
+
+  function frame(ts) {
+    t = ts * 0.001;
+    prog = Math.min(prog + 0.0045, 1);
+    const pulse = Math.sin(t * 0.65) * 0.5 + 0.5;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#0d0b18';
+    ctx.fillRect(0, 0, W, H);
+    ctx.setLineDash([]);
+
+    /* ── columns draw top → bottom, staggered ── */
+    for (let i = 0; i <= COLS; i++) {
+      const p = ease(c01(prog, i * 0.025, i * 0.025 + 0.07));
+      if (!p) continue;
+      ctx.strokeStyle = `rgba(196,168,255,0.08)`;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo((i / COLS) * W, 0);
+      ctx.lineTo((i / COLS) * W, H * p);
+      ctx.stroke();
+    }
+
+    /* ── rows draw left → right, staggered after columns ── */
+    for (let i = 0; i <= ROWS; i++) {
+      const p = ease(c01(prog, 0.28 + i * 0.03, 0.28 + i * 0.03 + 0.08));
+      if (!p) continue;
+      ctx.strokeStyle = `rgba(196,168,255,0.08)`;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(0, (i / ROWS) * H);
+      ctx.lineTo(W * p, (i / ROWS) * H);
+      ctx.stroke();
+    }
+
+    /* ── golden rectangle draws itself ── */
+    const rectW = Math.min(W * 0.62, H * PHI * 0.76);
+    const rectH = rectW / PHI;
+    const rx = (W - rectW) / 2;
+    const ry = (H - rectH) / 2;
+    const rectP = ease(c01(prog, 0.50, 0.70));
+    const gA = (0.32 + pulse * 0.14) * rectP;
+
+    if (rectP > 0) {
+      const perim = 2 * (rectW + rectH);
+      ctx.setLineDash([perim, perim]);
+      ctx.lineDashOffset = perim * (1 - rectP);
+      ctx.strokeStyle = `rgba(196,168,255,${gA})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.rect(rx, ry, rectW, rectH);
+      ctx.stroke();
+    }
+
+    /* ── golden square divider draws down ── */
+    const divP = ease(c01(prog, 0.70, 0.78));
+    if (divP > 0) {
+      ctx.setLineDash([3, 6]);
+      ctx.strokeStyle = `rgba(196,168,255,${0.28 * divP})`;
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.moveTo(rx + rectH, ry);
+      ctx.lineTo(rx + rectH, ry + rectH * divP);
+      ctx.stroke();
+    }
+
+    /* ── crosshair ── */
+    const crossP = ease(c01(prog, 0.74, 0.80));
+    if (crossP > 0) {
+      ctx.setLineDash([]);
+      const cx = W / 2, cy = H / 2, cs = 13;
+      ctx.strokeStyle = `rgba(196,168,255,${0.5 * crossP})`;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(cx - cs * crossP, cy); ctx.lineTo(cx + cs * crossP, cy);
+      ctx.moveTo(cx, cy - cs * crossP); ctx.lineTo(cx, cy + cs * crossP);
+      ctx.stroke();
+    }
+
+    /* ── corner crop marks ── */
+    const mkP = ease(c01(prog, 0.76, 0.82));
+    if (mkP > 0) {
+      const mk = 16 * mkP;
+      const corners = [
+        [rx,         ry,          1,  1],
+        [rx + rectW, ry,         -1,  1],
+        [rx,         ry + rectH,  1, -1],
+        [rx + rectW, ry + rectH, -1, -1]
+      ];
+      ctx.setLineDash([]);
+      ctx.strokeStyle = `rgba(196,168,255,${0.45 * mkP})`;
+      ctx.lineWidth = 0.8;
+      for (const [x, y, dx, dy] of corners) {
+        ctx.beginPath();
+        ctx.moveTo(x, y); ctx.lineTo(x + dx * mk, y);
+        ctx.moveTo(x, y); ctx.lineTo(x, y + dy * mk);
+        ctx.stroke();
+      }
+    }
+
+    /* ── annotation labels ── */
+    ctx.setLineDash([]);
+    ctx.font = '600 7.5px monospace';
+    const labels = [
+      { text: '8 COL',        x: rx + rectW,    y: ry - 9,            align: 'right', at: 0.82 },
+      { text: '5 ROW',        x: rx - 9,        y: ry + 10,           align: 'right', at: 0.86 },
+      { text: 'φ = 1.618',    x: rx + rectH + 7,y: ry - 9,            align: 'left',  at: 0.89 },
+      { text: 'GOLDEN RATIO', x: rx + 6,        y: ry + rectH + 13,   align: 'left',  at: 0.92 },
+      { text: 'BASELINE',     x: W / 2,         y: ry + rectH * .5 + 13, align: 'center', at: 0.95 },
+    ];
+    for (const lb of labels) {
+      const lp = ease(c01(prog, lb.at, lb.at + 0.05));
+      if (!lp) continue;
+      ctx.globalAlpha = lp * 0.75;
+      ctx.fillStyle = '#c4a8ff';
+      ctx.textAlign = lb.align;
+      ctx.fillText(lb.text, lb.x, lb.y);
+    }
+    ctx.globalAlpha = 1;
+    ctx.setLineDash([]);
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
