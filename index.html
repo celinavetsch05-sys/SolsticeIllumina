@@ -167,46 +167,56 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8rem 2rem 4rem;
+      padding: 7rem 2rem 4rem;
+      gap: 0;
     }
     .hero-eyebrow {
-      font-size: .66rem;
-      letter-spacing: .45em;
+      font-size: .62rem;
+      letter-spacing: .38em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 2rem;
+      margin-bottom: 1.4rem;
       font-family: sans-serif;
     }
-    .hero-logo-mark { width: 76px; height: 76px; margin: 0 auto 2rem; }
+    .hero-logo-mark { width: 58px; height: 58px; margin: 0 auto 1.4rem; }
     .hero-name {
-      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-size: .72rem;
       font-weight: 300;
-      letter-spacing: .35em;
+      letter-spacing: .32em;
       text-transform: uppercase;
       color: var(--muted);
       font-family: sans-serif;
-      margin-bottom: .6rem;
+      margin-bottom: 1rem;
     }
     .hero-title {
-      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
       font-weight: 200;
-      letter-spacing: .07em;
+      letter-spacing: .04em;
       color: var(--stardust);
-      line-height: 1.05;
-      margin-bottom: 1.3rem;
+      line-height: 1.12;
+      margin-bottom: 1.6rem;
+      max-width: 780px;
     }
     .hero-title em { font-style: italic; color: var(--lumina); }
     .hero-sub {
-      font-size: clamp(.88rem, 1.4vw, 1rem);
-      color: var(--muted);
-      letter-spacing: .04em;
-      line-height: 1.8;
-      max-width: 500px;
+      font-size: clamp(.95rem, 1.5vw, 1.08rem);
+      color: rgba(240,236,255,0.82);
+      letter-spacing: .02em;
+      line-height: 1.75;
+      max-width: 540px;
       font-family: sans-serif;
       font-weight: 300;
-      margin-bottom: 3rem;
+      margin-bottom: 2.4rem;
     }
     .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .hero-supporting {
+      margin-top: 1.4rem;
+      font-size: .68rem;
+      letter-spacing: .09em;
+      color: var(--muted);
+      font-family: sans-serif;
+      opacity: 0.6;
+    }
     .btn-p {
       padding: .85rem 2.2rem;
       background: linear-gradient(135deg,#6b3fa0,#9b59d8);
@@ -744,13 +754,14 @@
   </div>
 
   <p class="hero-name">Celina Vetsch</p>
-  <h1 class="hero-title">Design that turns your brand into<br><em>something people trust</em></h1>
-  <p class="hero-sub">I create brand identities, websites, and content that help you attract better clients and grow with clarity.</p>
+  <h1 class="hero-title">Brand identity and web design,<br><em>one person, start to finish.</em></h1>
+  <p class="hero-sub">Most founders split this between a designer and a developer. I handle both, so your brand stays consistent from logo to live site.</p>
 
   <div class="hero-btns">
     <button class="btn-p" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">View Projects</button>
     <button class="btn-g" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start a Project</button>
   </div>
+  <p class="hero-supporting">Identity, website, and content built as one system — not separate deliverables.</p>
 
   <div class="scroll-cue">
     <span>Scroll</span>
