@@ -114,6 +114,47 @@
       transition: color .2s;
     }
     .nav-links a:hover { color: var(--lumina); }
+    .nav-item { position: relative; }
+    .nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      padding-top: .75rem;
+      min-width: 220px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      z-index: 200;
+    }
+    .nav-dropdown-inner {
+      background: rgba(4,5,26,.96);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(196,168,255,.12);
+      border-radius: 10px;
+      padding: .6rem 0;
+    }
+    .nav-item:hover .nav-dropdown {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown a {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .7rem 1.2rem;
+      font-size: .62rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      font-family: sans-serif;
+      transition: color .15s, background .15s;
+    }
+    .nav-dropdown a:hover { color: var(--lumina); background: rgba(196,168,255,.05); }
+    .dd-num { font-size: .54rem; letter-spacing: .2em; color: rgba(196,168,255,.28); flex-shrink: 0; transition: color .15s; }
+    .nav-dropdown a:hover .dd-num { color: rgba(196,168,255,.6); }
     .nav-cta {
       padding: .55rem 1.4rem;
       border: 1px solid rgba(196,168,255,.35);
@@ -429,32 +470,56 @@
 
     /* ── CASE STUDIES ── */
     #cases { background: rgba(5,3,14,.7); }
-    .cases-list { margin-top: 3rem; border-top: 1px solid var(--border); scroll-margin-top: 5rem; }
+    .cases-list { margin-top: 4rem; border-top: 1px solid var(--border); scroll-margin-top: 5rem; }
     .case-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 2.5rem;
-      padding: 1.8rem 0;
+      padding: 2.4rem 0;
       border-bottom: 1px solid var(--border);
+      border-left: 2px solid transparent;
       cursor: pointer;
       text-decoration: none;
+      transition: border-color .25s, padding-left .25s, background .25s;
+      scroll-margin-top: 6rem;
     }
-    .case-item:hover .case-title { color: var(--lumina); }
+    .case-item[data-project="001"]:hover { border-left-color: #4a90d9; padding-left: .8rem; background: linear-gradient(90deg, rgba(74,144,217,.06), transparent 70%); }
+    .case-item[data-project="002"]:hover { border-left-color: #8de8d8; padding-left: .8rem; background: linear-gradient(90deg, rgba(141,232,216,.06), transparent 70%); }
+    .case-item[data-project="003"]:hover { border-left-color: #d4a847; padding-left: .8rem; background: linear-gradient(90deg, rgba(212,168,71,.06), transparent 70%); }
+    .case-item[data-project="004"]:hover { border-left-color: #486682; padding-left: .8rem; background: linear-gradient(90deg, rgba(72,102,130,.06), transparent 70%); }
+    .case-item[data-project="001"]:hover .case-tag { border-color: rgba(74,144,217,.35); color: rgba(74,144,217,.85); }
+    .case-item[data-project="002"]:hover .case-tag { border-color: rgba(141,232,216,.35); color: rgba(141,232,216,.85); }
+    .case-item[data-project="003"]:hover .case-tag { border-color: rgba(212,168,71,.35); color: rgba(212,168,71,.85); }
+    .case-item[data-project="004"]:hover .case-tag { border-color: rgba(72,102,130,.45); color: rgba(72,102,130,.95); }
     .case-num {
       font-size: .68rem;
       letter-spacing: .25em;
       color: var(--muted);
       font-family: sans-serif;
       min-width: 38px;
+      padding-top: .25rem;
     }
     .case-info { flex: 1; }
     .case-title {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 300;
       color: var(--stardust);
       letter-spacing: .04em;
-      transition: color .2s;
-      margin-bottom: .3rem;
+      margin-bottom: .25rem;
+    }
+    .case-gloss {
+      font-size: .8rem;
+      font-style: italic;
+      color: var(--lumina);
+      margin-bottom: .6rem;
+      letter-spacing: .01em;
+    }
+    .case-outcome {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: .75rem;
+      max-width: 560px;
     }
     .case-tags { display: flex; gap: .45rem; flex-wrap: wrap; }
     .case-tag {
@@ -466,13 +531,39 @@
       border-radius: 20px;
       color: var(--muted);
       font-family: sans-serif;
+      transition: border-color .25s, color .25s;
     }
     .case-arrow {
       font-size: 1rem;
       color: var(--muted);
       transition: color .2s, transform .2s;
+      padding-top: .25rem;
+      flex-shrink: 0;
     }
     .case-item:hover .case-arrow { color: var(--lumina); transform: translateX(4px); }
+    @media (max-width: 600px) {
+      .cases-list { display: grid; gap: .75rem; border-top: none; }
+      .case-item {
+        flex-direction: column;
+        gap: .45rem;
+        padding: 1.1rem 1.2rem;
+        border: 1px solid var(--border);
+        border-left: 2px solid transparent;
+        border-radius: 8px;
+        background: rgba(107,63,160,.03);
+        transition: none;
+      }
+      .case-item[data-project="001"],
+      .case-item[data-project="001"]:hover { border-left-color: #4a90d9; padding-left: 1.2rem; }
+      .case-item[data-project="002"],
+      .case-item[data-project="002"]:hover { border-left-color: #8de8d8; padding-left: 1.2rem; }
+      .case-item[data-project="003"],
+      .case-item[data-project="003"]:hover { border-left-color: #d4a847; padding-left: 1.2rem; }
+      .case-item[data-project="004"],
+      .case-item[data-project="004"]:hover { border-left-color: #486682; padding-left: 1.2rem; }
+      .case-arrow { display: none; }
+      .case-num { padding-top: 0; }
+    }
 
     /* ── ABOUT ── */
     #about { background: rgba(10,6,26,.65); }
@@ -744,7 +835,17 @@
     </a>
     <ul class="nav-links">
       <li><a href="#portfolio">Work</a></li>
-      <li><a href="#cases-first">Case Studies</a></li>
+      <li class="nav-item">
+        <a href="case-studies/mind-heart-finance.html">Case Studies</a>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <a href="#case-001"><span class="dd-num">001</span>Mind Heart Finance</a>
+            <a href="#case-002"><span class="dd-num">002</span>Energie im Wachstum</a>
+            <a href="#case-003"><span class="dd-num">003</span>Selected Graphic Work</a>
+            <a href="#case-004"><span class="dd-num">004</span>Larcher &amp; Fahrion</a>
+          </div>
+        </div>
+      </li>
       <li><a href="#about">About</a></li>
     </ul>
     <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
@@ -899,15 +1000,17 @@
 <section id="cases">
   <div class="sec-inner">
     <p class="sec-eyebrow">02 · Case Studies</p>
-    <h2 class="sec-title">The thinking<br><em>behind the work</em></h2>
-    <p class="sec-body">Process, decisions, and outcomes — how each project came together from brief to final deliverable.</p>
+    <h2 class="sec-title">The work,<br><em>and what it did</em></h2>
+    <p class="sec-body">Each project had a clear brief. Here's what changed.</p>
 
     <div class="cases-list" id="cases-first">
       <!-- Link each href to your individual case study pages once built -->
-      <a class="case-item" href="case-studies/mind-heart-finance.html">
+      <a class="case-item" id="case-001" data-project="001" href="case-studies/mind-heart-finance.html">
         <span class="case-num">001</span>
         <div class="case-info">
-          <h3 class="case-title">Building a full brand identity for Mind Heart Finance</h3>
+          <h3 class="case-title">Mind Heart Finance</h3>
+          <p class="case-gloss">Making finance feel human</p>
+          <p class="case-outcome">From undefined to launch-ready — a financial brand built to make complexity feel approachable.</p>
           <div class="case-tags">
             <span class="case-tag">Brand Strategy</span>
             <span class="case-tag">Logo</span>
@@ -916,10 +1019,12 @@
         </div>
         <span class="case-arrow">→</span>
       </a>
-      <a class="case-item" href="case-studies/by-vanessa.html">
+      <a class="case-item" id="case-002" data-project="002" href="case-studies/by-vanessa.html">
         <span class="case-num">002</span>
         <div class="case-info">
-          <h3 class="case-title">Energie im Wachstum — brand identity for a wellness &amp; nutrition coach</h3>
+          <h3 class="case-title">Energie im Wachstum</h3>
+          <p class="case-gloss">"Energy in growth" — By Vanessa</p>
+          <p class="case-outcome">Scattered content became a recognizable system. Her offer now reads as clearly as it sounds.</p>
           <div class="case-tags">
             <span class="case-tag">Identity</span>
             <span class="case-tag">Instagram</span>
@@ -928,10 +1033,12 @@
         </div>
         <span class="case-arrow">→</span>
       </a>
-      <a class="case-item" href="case-studies/nextra.html">
+      <a class="case-item" id="case-003" data-project="003" href="case-studies/nextra.html">
         <span class="case-num">003</span>
         <div class="case-info">
-          <h3 class="case-title">Graphic Design — standalone work across clients &amp; personal projects</h3>
+          <h3 class="case-title">Selected Graphic Work</h3>
+          <p class="case-gloss">Work that communicates on contact</p>
+          <p class="case-outcome">Print, product, and promotional pieces built around one rule: communicate at a glance.</p>
           <div class="case-tags">
             <span class="case-tag">Poster Design</span>
             <span class="case-tag">Logo Design</span>
@@ -941,10 +1048,12 @@
         </div>
         <span class="case-arrow">→</span>
       </a>
-      <a class="case-item" href="case-studies/larcher-fahrion.html">
+      <a class="case-item" id="case-004" data-project="004" href="case-studies/larcher-fahrion.html">
         <span class="case-num">004</span>
         <div class="case-info">
-          <h3 class="case-title">Larcher &amp; Fahrion — a vacation rental website rooted in Bavarian hospitality</h3>
+          <h3 class="case-title">Larcher &amp; Fahrion</h3>
+          <p class="case-gloss">Bavaria, now online</p>
+          <p class="case-outcome">Their first website — clear enough to understand the offer, direct enough to go straight to booking.</p>
           <div class="case-tags">
             <span class="case-tag">Web Design</span>
             <span class="case-tag">Copywriting</span>
