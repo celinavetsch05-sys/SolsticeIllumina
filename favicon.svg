@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Outer orbit ring (tilted ellipse) -->
+  <ellipse cx="16" cy="16" rx="13" ry="5.5"
+    stroke="#c4a8ff" stroke-width="1.2" opacity="0.7"
+    transform="rotate(-30 16 16)"/>
+  <!-- Second orbit ring (other axis) -->
+  <ellipse cx="16" cy="16" rx="13" ry="5.5"
+    stroke="#8b6fc4" stroke-width="0.8" opacity="0.4"
+    transform="rotate(50 16 16)"/>
+  <!-- Central planet -->
+  <circle cx="16" cy="16" r="4.5" fill="#6b3fa0"/>
+  <circle cx="16" cy="16" r="4.5" fill="url(#planetGlow)"/>
+  <!-- Orbiting dot -->
+  <circle cx="27.5" cy="13.2" r="1.6" fill="#c4a8ff"/>
+  <!-- Small star dot -->
+  <circle cx="5.5" cy="19.5" r="0.9" fill="#c4a8ff" opacity="0.6"/>
+  <defs>
+    <radialGradient id="planetGlow" cx="38%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#c4a8ff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#3d1f6e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
