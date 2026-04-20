@@ -171,6 +171,27 @@
     }
     .nav-cta:hover { background: rgba(196,168,255,.09); transform: translateY(-1px); }
 
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .42rem .85rem;
+      border: 1px solid rgba(196,168,255,.25);
+      border-radius: 20px;
+      font-size: .62rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-family: sans-serif;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+    }
+    .lang-btn:hover { color: var(--lumina); border-color: rgba(196,168,255,.5); }
+    .lang-btn .lang-active { color: var(--lumina); font-weight: 600; }
+    .nav-end { display: flex; align-items: center; gap: .65rem; }
+
     /* ── SECTIONS ── */
     section { position: relative; z-index: 1; }
     .sec-inner { max-width: 1200px; margin: 0 auto; padding: 7rem 3rem; }
@@ -1108,7 +1129,10 @@
     <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+    <div class="nav-end">
+      <button class="lang-btn" id="langBtn" aria-label="Toggle language"><span class="lang-active" id="langActive">EN</span> / <span id="langOther">DE</span></button>
+      <button class="nav-cta" id="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+    </div>
   </div>
 </nav>
 
@@ -1366,17 +1390,17 @@
 
       <div class="about-text">
 
-        <div class="text-block">
+        <div class="text-block" id="about-intro">
           <p class="block-tag">Intro</p>
           <p class="block-p">I'm Celina, a designer based in Bali, originally from Germany. I design brand identities, websites, and content that make businesses easier to understand and easier to trust.</p>
         </div>
 
-        <div class="text-block">
+        <div class="text-block" id="about-approach">
           <p class="block-tag">Approach</p>
           <p class="block-p">I handle the full process myself, so your brand stays consistent from first idea to final output. With a background in both graphic and web design, I focus on work that not only looks right but functions clearly in real use.</p>
         </div>
 
-        <div class="text-block block-perspective">
+        <div class="text-block block-perspective" id="about-perspective">
           <p class="block-tag">Perspective</p>
           <p class="block-p">Good design isn't decoration, it's communication.</p>
         </div>
@@ -1796,6 +1820,235 @@
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
   }));
+
+  /* ── LANGUAGE TOGGLE ── */
+  (function () {
+    const T = {
+      en: {
+        // Nav
+        navWork: 'Work', navCases: 'Case Studies', navAbout: 'About', navCta: "Let's Talk",
+        // Hero
+        heroEyebrow: 'Brand Identity | Web Design | Content',
+        heroTitle: 'Brand identity and web design,<br><em>one person, start to finish.</em>',
+        heroSub: 'Most founders split this between a designer and a developer. I handle both, so your brand stays consistent from logo to live site.',
+        heroBtnView: 'View Projects', heroBtnStart: 'Start a Project',
+        heroSupporting: 'Brand identity, web design, and content. One person, start to finish.',
+        heroScroll: 'Scroll',
+        // Portfolio
+        portEyebrow: '01 · Selected Work',
+        portTitle: 'Selected <em>Work</em>',
+        portBody: 'Projects across brand identity, web design, and content.<br>Each one built around a specific problem and a clear outcome.',
+        cardHint: 'hover to explore',
+        logosCat: 'Logos', logosTag: 'Brand Identity · Logo Design', logosTitle: 'Logos',
+        logosDesc: 'Brand marks for small businesses and personal brands across different industries.<br>Built to read clearly at any size, across print and digital.',
+        logosLink: 'View collection →',
+        brandCat: 'Brand Identity', brandTag: 'Brand Strategy · Social', brandTitle: 'Brand Identity',
+        brandDesc: 'Full brand systems, including logo, color palette, audience analysis, and content pillars.<br>So every touchpoint feels like the same brand, not a collection of separate assets.',
+        brandLink: 'View project →',
+        socialCat: 'Social Content', socialTag: 'Social Media · Content Design', socialTitle: 'Social Content',
+        socialDesc: 'Carousel layouts and feed visuals for multiple clients.<br>Each post designed around their audience, what they need to see, not just what looks good.',
+        socialLink: 'View project →',
+        webCat: 'Web Design', webTag: 'Web Design · Landing Pages', webTitle: 'Web Design',
+        webDesc: 'Responsive websites and landing pages for small businesses.<br>Clear hierarchy and structure, built so visitors know what to do next.',
+        webLink: 'View project →',
+        printCat: 'Print & Promo', printTag: 'Graphic Design · Print & Digital', printTitle: 'Print & Promotional',
+        printDesc: 'Flyers, event graphics, and product information cards for various clients.<br>Built for specific markets and contexts, not generic templates.',
+        printLink: 'View project →',
+        // Cases
+        casesEyebrow: '02 · Case Studies',
+        casesTitle: 'The work,<br><em>and what it did</em>',
+        casesBody: "Each project had a clear brief. Here's what changed.",
+        case001Gloss: 'Making finance feel human',
+        case001Outcome: 'From scratch to launch. A financial brand built to make complexity feel approachable.',
+        case002Gloss: '"Energy in growth," by Vanessa',
+        case002Outcome: 'Scattered content became a recognizable system. Her offer now reads as clearly as it sounds.',
+        case003Gloss: 'Work that communicates on contact',
+        case003Outcome: 'Print, product, and promotional pieces built around one rule: communicate at a glance.',
+        case004Gloss: 'Bavaria, now online',
+        case004Outcome: 'Their first website, clear enough to understand the offer, direct enough to go straight to booking.',
+        // About
+        aboutEyebrow: '03 · About',
+        aboutTitle: 'Guided by <em>clarity</em>',
+        introTag: 'Intro', introP: "I'm Celina, a designer based in Bali, originally from Germany. I design brand identities, websites, and content that make businesses easier to understand and easier to trust.",
+        approachTag: 'Approach', approachP: 'I handle the full process myself, so your brand stays consistent from first idea to final output. With a background in both graphic and web design, I focus on work that not only looks right but functions clearly in real use.',
+        perspTag: 'Perspective', perspP: "Good design isn't decoration, it's communication.",
+        eduDegree: 'Double Degree, Graphic Design &amp; Web Design, 2024',
+        eduDetail: 'Visual communication · Branding · Typography · UX · Responsive interfaces',
+        // Contact
+        contactEyebrow: '04 · Contact',
+        contactTitle: 'Mission <em>control</em>',
+        contactBody: "Got a project in mind? Open a channel. I'd love to hear about it.",
+        ctrlLabel: 'Solstice Illumina · Secure Channel',
+        labelName: 'Name', labelEmail: 'Email', labelProject: 'Project type', labelMessage: 'Message',
+        phName: 'Your name', phEmail: 'your@email.com',
+        phProject: 'Brand identity, web design, social content...',
+        phMessage: "Tell me about your project and what you're looking for...",
+        submitBtn: 'Initiate Transmission',
+        solSummer: '☀ Summer Solstice', solWinter: '☽ Winter Solstice',
+        footCopy: '© 2026 Celina Vetsch · All rights reserved',
+      },
+      de: {
+        navWork: 'Arbeit', navCases: 'Fallstudien', navAbout: 'Über mich', navCta: 'Kontakt',
+        heroEyebrow: 'Markenidentität | Webdesign | Content',
+        heroTitle: 'Markenidentität und Webdesign,<br><em>eine Person, von Anfang bis Ende.</em>',
+        heroSub: 'Die meisten Gründer teilen das zwischen Designer und Entwickler auf. Ich übernehme beides, damit deine Marke vom Logo bis zur fertigen Website konsistent bleibt.',
+        heroBtnView: 'Projekte ansehen', heroBtnStart: 'Projekt starten',
+        heroSupporting: 'Markenidentität, Webdesign und Content. Eine Person, von Anfang bis Ende.',
+        heroScroll: 'Scrollen',
+        portEyebrow: '01 · Ausgewählte Arbeiten',
+        portTitle: 'Ausgewählte <em>Arbeiten</em>',
+        portBody: 'Projekte aus Markenidentität, Webdesign und Content.<br>Jedes mit einem konkreten Problem und einem klaren Ergebnis.',
+        cardHint: 'Hover zum Erkunden',
+        logosCat: 'Logos', logosTag: 'Markenidentität · Logodesign', logosTitle: 'Logos',
+        logosDesc: 'Markenzeichen für Kleinunternehmen und Personal Brands aus verschiedenen Branchen.<br>Klar lesbar in jeder Größe, für Print und Digital.',
+        logosLink: 'Zur Sammlung →',
+        brandCat: 'Markenidentität', brandTag: 'Markenstrategie · Social', brandTitle: 'Markenidentität',
+        brandDesc: 'Vollständige Markensysteme mit Logo, Farbpalette, Zielgruppenanalyse und Content-Säulen.<br>Damit jeder Berührungspunkt wie eine Marke wirkt.',
+        brandLink: 'Zum Projekt →',
+        socialCat: 'Social Content', socialTag: 'Social Media · Content Design', socialTitle: 'Social Content',
+        socialDesc: 'Carousel-Layouts und Feed-Visuals für verschiedene Kunden.<br>Jeder Post auf die Zielgruppe zugeschnitten, nicht nur auf Ästhetik.',
+        socialLink: 'Zum Projekt →',
+        webCat: 'Webdesign', webTag: 'Webdesign · Landingpages', webTitle: 'Webdesign',
+        webDesc: 'Responsive Websites und Landingpages für Kleinunternehmen.<br>Klare Hierarchie, damit Besucher sofort wissen, was als Nächstes kommt.',
+        webLink: 'Zum Projekt →',
+        printCat: 'Print & Promo', printTag: 'Grafikdesign · Print & Digital', printTitle: 'Print & Promo',
+        printDesc: 'Flyer, Event-Grafiken und Produktinfokarten für verschiedene Kunden.<br>Für spezifische Märkte und Kontexte, keine Vorlagen von der Stange.',
+        printLink: 'Zum Projekt →',
+        casesEyebrow: '02 · Fallstudien',
+        casesTitle: 'Die Arbeit,<br><em>und was sie bewirkt hat</em>',
+        casesBody: 'Jedes Projekt hatte ein klares Briefing. Das hat sich verändert.',
+        case001Gloss: 'Finanzen menschlich machen',
+        case001Outcome: 'Von null bis Launch. Eine Finanzmarke, die Komplexität zugänglich macht.',
+        case002Gloss: '„Energie im Wachstum", von Vanessa',
+        case002Outcome: 'Verstreuter Content wurde zu einem erkennbaren System. Ihr Angebot liest sich jetzt so klar, wie es klingt.',
+        case003Gloss: 'Arbeit, die auf Anhieb kommuniziert',
+        case003Outcome: 'Print, Produkt und Promo auf einen Nenner: auf einen Blick verstehen.',
+        case004Gloss: 'Bayern, jetzt online',
+        case004Outcome: 'Ihre erste Website, klar genug zum Verstehen, direkt genug zum Buchen.',
+        aboutEyebrow: '03 · Über mich',
+        aboutTitle: 'Geleitet von <em>Klarheit</em>',
+        introTag: 'Intro', introP: 'Ich bin Celina, Designerin mit Sitz in Bali, ursprünglich aus Deutschland. Ich gestalte Markenidentitäten, Websites und Content, die Unternehmen klarer und vertrauenswürdiger machen.',
+        approachTag: 'Ansatz', approachP: 'Ich übernehme den gesamten Prozess selbst, damit deine Marke von der ersten Idee bis zum finalen Ergebnis konsistent bleibt. Mit einem Hintergrund in Grafik- und Webdesign liegt mein Fokus auf Arbeit, die nicht nur gut aussieht, sondern im echten Einsatz klar funktioniert.',
+        perspTag: 'Perspektive', perspP: 'Gutes Design ist keine Dekoration, es ist Kommunikation.',
+        eduDegree: 'Doppelabschluss, Grafikdesign &amp; Webdesign, 2024',
+        eduDetail: 'Visuelle Kommunikation · Branding · Typografie · UX · Responsive Interfaces',
+        contactEyebrow: '04 · Kontakt',
+        contactTitle: 'Mission <em>Control</em>',
+        contactBody: 'Hast du ein Projekt im Kopf? Öffne einen Kanal. Ich freue mich, davon zu hören.',
+        ctrlLabel: 'Solstice Illumina · Sicherer Kanal',
+        labelName: 'Name', labelEmail: 'E-Mail', labelProject: 'Projektart', labelMessage: 'Nachricht',
+        phName: 'Dein Name', phEmail: 'deine@email.com',
+        phProject: 'Markenidentität, Webdesign, Social Content...',
+        phMessage: 'Erzähl mir von deinem Projekt und was du dir vorstellst...',
+        submitBtn: 'Übertragung starten',
+        solSummer: '☀ Sommersonnenwende', solWinter: '☽ Wintersonnenwende',
+        footCopy: '© 2026 Celina Vetsch · Alle Rechte vorbehalten',
+      }
+    };
+
+    const MAP = [
+      ['.nav-links li:first-child a', 'navWork', 'text'],
+      ['.nav-item > a', 'navCases', 'text'],
+      ['.nav-links li:last-child a', 'navAbout', 'text'],
+      ['#navCta', 'navCta', 'text'],
+      ['.hero-eyebrow', 'heroEyebrow', 'text'],
+      ['.hero-title', 'heroTitle', 'html'],
+      ['.hero-sub', 'heroSub', 'text'],
+      ['.btn-p', 'heroBtnView', 'text'],
+      ['.btn-g', 'heroBtnStart', 'text'],
+      ['.hero-supporting', 'heroSupporting', 'text'],
+      ['.scroll-cue span', 'heroScroll', 'text'],
+      ['#portfolio .sec-eyebrow', 'portEyebrow', 'text'],
+      ['#portfolio .sec-title', 'portTitle', 'html'],
+      ['#portfolio .sec-body', 'portBody', 'html'],
+      ['#card-logos .front-cat', 'logosCat', 'text'],
+      ['#card-logos .card-tag', 'logosTag', 'text'],
+      ['#card-logos .card-title', 'logosTitle', 'text'],
+      ['#card-logos .card-desc', 'logosDesc', 'html'],
+      ['#card-logos .card-link', 'logosLink', 'text'],
+      ['#card-brand .front-cat', 'brandCat', 'text'],
+      ['#card-brand .card-tag', 'brandTag', 'text'],
+      ['#card-brand .card-title', 'brandTitle', 'text'],
+      ['#card-brand .card-desc', 'brandDesc', 'html'],
+      ['#card-brand .card-link', 'brandLink', 'text'],
+      ['#card-social .front-cat', 'socialCat', 'text'],
+      ['#card-social .card-tag', 'socialTag', 'text'],
+      ['#card-social .card-title', 'socialTitle', 'text'],
+      ['#card-social .card-desc', 'socialDesc', 'html'],
+      ['#card-social .card-link', 'socialLink', 'text'],
+      ['#card-web .front-cat', 'webCat', 'text'],
+      ['#card-web .card-tag', 'webTag', 'text'],
+      ['#card-web .card-title', 'webTitle', 'text'],
+      ['#card-web .card-desc', 'webDesc', 'html'],
+      ['#card-web .card-link', 'webLink', 'text'],
+      ['#card-print .front-cat', 'printCat', 'text'],
+      ['#card-print .card-tag', 'printTag', 'text'],
+      ['#card-print .card-title', 'printTitle', 'text'],
+      ['#card-print .card-desc', 'printDesc', 'html'],
+      ['#card-print .card-link', 'printLink', 'text'],
+      ['#cases .sec-eyebrow', 'casesEyebrow', 'text'],
+      ['#cases .sec-title', 'casesTitle', 'html'],
+      ['#cases .sec-body', 'casesBody', 'text'],
+      ['#case-001 .case-gloss', 'case001Gloss', 'text'],
+      ['#case-001 .case-outcome', 'case001Outcome', 'text'],
+      ['#case-002 .case-gloss', 'case002Gloss', 'text'],
+      ['#case-002 .case-outcome', 'case002Outcome', 'text'],
+      ['#case-003 .case-gloss', 'case003Gloss', 'text'],
+      ['#case-003 .case-outcome', 'case003Outcome', 'text'],
+      ['#case-004 .case-gloss', 'case004Gloss', 'text'],
+      ['#case-004 .case-outcome', 'case004Outcome', 'text'],
+      ['#about .sec-eyebrow', 'aboutEyebrow', 'text'],
+      ['#about .sec-title', 'aboutTitle', 'html'],
+      ['#about-intro .block-tag', 'introTag', 'text'],
+      ['#about-intro .block-p', 'introP', 'text'],
+      ['#about-approach .block-tag', 'approachTag', 'text'],
+      ['#about-approach .block-p', 'approachP', 'text'],
+      ['#about-perspective .block-tag', 'perspTag', 'text'],
+      ['#about-perspective .block-p', 'perspP', 'text'],
+      ['.edu-degree', 'eduDegree', 'html'],
+      ['.edu-detail', 'eduDetail', 'text'],
+      ['#contact .sec-eyebrow', 'contactEyebrow', 'text'],
+      ['#contact .sec-title', 'contactTitle', 'html'],
+      ['#contact .sec-body', 'contactBody', 'text'],
+      ['.ctrl-label', 'ctrlLabel', 'text'],
+      ['label[for="name"]', 'labelName', 'text'],
+      ['label[for="email"]', 'labelEmail', 'text'],
+      ['label[for="project"]', 'labelProject', 'text'],
+      ['label[for="message"]', 'labelMessage', 'text'],
+      ['#name', 'phName', 'ph'],
+      ['#email', 'phEmail', 'ph'],
+      ['#project', 'phProject', 'ph'],
+      ['#message', 'phMessage', 'ph'],
+      ['.ctrl-submit', 'submitBtn', 'text'],
+      ['#solLabelSummer', 'solSummer', 'text'],
+      ['#solLabelWinter', 'solWinter', 'text'],
+      ['.foot-copy', 'footCopy', 'text'],
+    ];
+
+    function setLang(lang) {
+      const t = T[lang];
+      document.documentElement.lang = lang;
+      MAP.forEach(([sel, key, type]) => {
+        const el = document.querySelector(sel);
+        if (!el || t[key] === undefined) return;
+        if (type === 'html') el.innerHTML = t[key];
+        else if (type === 'ph') el.placeholder = t[key];
+        else el.textContent = t[key];
+      });
+      document.querySelectorAll('.front-hint').forEach(el => { el.textContent = t.cardHint; });
+      document.getElementById('langActive').textContent = lang.toUpperCase();
+      document.getElementById('langOther').textContent = lang === 'en' ? 'DE' : 'EN';
+      localStorage.setItem('si-lang', lang);
+    }
+
+    document.getElementById('langBtn').addEventListener('click', () => {
+      const current = localStorage.getItem('si-lang') || 'en';
+      setLang(current === 'en' ? 'de' : 'en');
+    });
+
+    const saved = localStorage.getItem('si-lang');
+    if (saved === 'de') setLang('de');
+  })();
 
   /* Signal wave */
   (function () {
