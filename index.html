@@ -308,6 +308,7 @@
       background: linear-gradient(to bottom, var(--lumina), transparent);
       animation: spulse 2s ease-in-out infinite;
     }
+    } /* close #hero */
     @keyframes spulse { 0%,100%{opacity:.3} 50%{opacity:1} }
 
     /* ── PORTFOLIO ── */
@@ -1295,30 +1296,10 @@
     }
   }
 
-  function aurora(yb, hue, alpha, off) {
-    ctx.beginPath();
-    for (let i = 0; i <= 14; i++) {
-      const x = (i / 14) * W;
-      const y = yb
-        + Math.sin(i * 0.7  + t * 0.35 + off)       * 55
-        + Math.sin(i * 0.28 + t * 0.18 + off * 1.4) * 38
-        + Math.sin(mx * 3.5 + i * 0.45)              * 22;
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    }
-    ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
-    ctx.fillStyle = `hsla(${hue},68%,52%,${alpha})`;
-    ctx.fill();
-  }
-
   function frame(ts) {
     t = ts * 0.001;
     scrollGlow *= 0.96;
     ctx.clearRect(0, 0, W, H);
-    const yOff = H * 0.28;
-    aurora(yOff,       268, 0.022, 0);
-    aurora(yOff + 65,  242, 0.016, 1.3);
-    aurora(yOff + 125, 278, 0.012, 2.6);
-    aurora(yOff + 35,  178, 0.010, 0.9);
 
     /* Background stars */
     for (const s of stars) {
