@@ -17,7 +17,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--void);
   color: var(--stardust);
-  font-family: Georgia, serif;
+  font-family: sans-serif;
   overflow-x: hidden;
   cursor: none;
 }
@@ -143,10 +143,10 @@ nav {
 }
 .sec-body {
   font-size: 1rem;
-  color: #ffffff;
-  line-height: 1.9;
-  font-family: Georgia, serif;
-  font-weight: 400;
+  color: rgba(240,236,255,.88);
+  line-height: 1.85;
+  font-family: sans-serif;
+  font-weight: 300;
 }
 /* First paragraph in a section gets a slightly larger lead style */
 .cs-section > .sec-body:first-of-type {
