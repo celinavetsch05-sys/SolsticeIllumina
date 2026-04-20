@@ -738,17 +738,24 @@
     /* ── CONTACT ── */
     #contact {
       position: relative;
-      /* Day/night gradient: deep space at top bleeds into warm solstice gold at the horizon */
+      transition: background 0.7s ease;
       background:
         radial-gradient(ellipse 80% 45% at 50% 100%, rgba(212,168,71,.20) 0%, rgba(107,63,160,.07) 52%, transparent 72%),
         linear-gradient(to bottom, rgba(4,5,26,1) 0%, rgba(8,5,28,1) 58%, rgba(16,9,18,1) 100%);
     }
-    /* Horizon line — the solstice sun's position on the horizon */
+    /* Winter solstice state — cool silver moon tones */
+    #contact.winter {
+      background:
+        radial-gradient(ellipse 80% 45% at 50% 100%, rgba(141,232,216,.16) 0%, rgba(60,80,160,.08) 52%, transparent 72%),
+        linear-gradient(to bottom, rgba(4,5,26,1) 0%, rgba(4,8,32,1) 58%, rgba(5,10,30,1) 100%);
+    }
+    /* Horizon line */
     #contact::before {
       content: '';
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 1px;
+      transition: background 0.7s ease;
       background: linear-gradient(90deg,
         transparent 0%,
         rgba(212,168,71,.18) 18%,
@@ -760,7 +767,18 @@
       );
       pointer-events: none;
     }
-    /* Half-risen sun at the solstice horizon */
+    #contact.winter::before {
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(141,232,216,.15) 18%,
+        rgba(141,232,216,.45) 38%,
+        rgba(200,235,255,.60) 50%,
+        rgba(141,232,216,.45) 62%,
+        rgba(141,232,216,.15) 82%,
+        transparent 100%
+      );
+    }
+    /* Sun / Moon disc at horizon */
     #contact::after {
       content: '';
       position: absolute;
@@ -768,6 +786,7 @@
       transform: translateX(-50%);
       width: 24px; height: 12px;
       border-radius: 24px 24px 0 0;
+      transition: background 0.7s ease, box-shadow 0.7s ease;
       background: rgba(255,210,65,.94);
       box-shadow:
         0 0 18px rgba(212,168,71,.9),
@@ -775,7 +794,63 @@
         0 0 110px rgba(212,168,71,.22);
       pointer-events: none;
     }
+    #contact.winter::after {
+      background: rgba(210,235,255,.90);
+      box-shadow:
+        0 0 18px rgba(141,232,216,.8),
+        0 0 55px rgba(141,232,216,.4),
+        0 0 110px rgba(141,232,216,.18);
+    }
     #contact .sec-inner { text-align: center; position: relative; z-index: 1; }
+    /* ── SOLSTICE TOGGLE ── */
+    .sol-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.1rem;
+      margin-top: 2.8rem;
+    }
+    .sol-label {
+      font-size: .58rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      font-family: sans-serif;
+      color: var(--muted);
+      transition: color .4s;
+      user-select: none;
+    }
+    .sol-label.active { color: var(--lumina); }
+    .sol-toggle {
+      position: relative;
+      width: 54px; height: 28px;
+      background: rgba(212,168,71,.22);
+      border: 1px solid rgba(212,168,71,.45);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background .5s, border-color .5s;
+      flex-shrink: 0;
+    }
+    .sol-toggle:hover { background: rgba(212,168,71,.32); }
+    .sol-thumb {
+      position: absolute;
+      top: 4px; left: 4px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(255,210,65,.95);
+      box-shadow: 0 0 10px rgba(212,168,71,.8), 0 0 22px rgba(212,168,71,.4);
+      transition: transform .5s cubic-bezier(.4,0,.2,1), background .5s, box-shadow .5s;
+    }
+    /* Winter: slide thumb right + cool colours */
+    #contact.winter .sol-toggle {
+      background: rgba(141,232,216,.18);
+      border-color: rgba(141,232,216,.4);
+    }
+    #contact.winter .sol-toggle:hover { background: rgba(141,232,216,.28); }
+    #contact.winter .sol-thumb {
+      transform: translateX(26px);
+      background: rgba(210,238,255,.92);
+      box-shadow: 0 0 10px rgba(141,232,216,.8), 0 0 22px rgba(141,232,216,.4);
+    }
     #contact .sec-eyebrow,
     #contact .sec-title { text-align: center; }
     #contact .sec-body { text-align: center; max-width: 520px; margin-left: auto; margin-right: auto; }
@@ -1383,6 +1458,14 @@
       <div class="contact-alt">WhatsApp <a href="https://wa.me/6281237829976">+62 812-3782-9976</a></div>
       <div class="contact-alt">Email <a href="mailto:celinavetsch15@outlook.com">celinavetsch15@outlook.com</a></div>
     </div>
+
+    <div class="sol-switch">
+      <span class="sol-label active" id="solLabelSummer">☀ Summer Solstice</span>
+      <button class="sol-toggle" id="solToggle" aria-label="Toggle solstice mode">
+        <span class="sol-thumb"></span>
+      </button>
+      <span class="sol-label" id="solLabelWinter">☽ Winter Solstice</span>
+    </div>
   </div>
 </section>
 
@@ -1691,6 +1774,17 @@
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
   }));
+
+  /* Solstice toggle */
+  const solToggle = document.getElementById('solToggle');
+  const contactEl = document.getElementById('contact');
+  const solLabelSummer = document.getElementById('solLabelSummer');
+  const solLabelWinter = document.getElementById('solLabelWinter');
+  solToggle.addEventListener('click', () => {
+    const isWinter = contactEl.classList.toggle('winter');
+    solLabelSummer.classList.toggle('active', !isWinter);
+    solLabelWinter.classList.toggle('active', isWinter);
+  });
 
   /* Boost star brightness on scroll, decays via scrollGlow *= 0.96 in frame() */
   window.addEventListener('scroll', () => { scrollGlow = Math.min(scrollGlow + 0.5, 1.0); });
