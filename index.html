@@ -385,6 +385,55 @@
     @media (prefers-reduced-motion: reduce) {
       .aurora-blob, .scroll-line { animation: none !important; }
     }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal.d1 { transition-delay: .08s; }
+    .reveal.d2 { transition-delay: .16s; }
+    .reveal.d3 { transition-delay: .24s; }
+    .reveal.d4 { transition-delay: .32s; }
+    .reveal.d5 { transition-delay: .40s; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* ── FLOATING CTA ── */
+    .float-cta {
+      position: fixed;
+      bottom: 1.8rem;
+      right: 1.8rem;
+      z-index: 800;
+      padding: .72rem 1.5rem;
+      background: linear-gradient(135deg, #6b3fa0, #9b59d8);
+      border: none;
+      border-radius: 40px;
+      color: var(--stardust);
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-family: sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 28px rgba(107,63,160,.5), 0 0 0 1px rgba(196,168,255,.15);
+      opacity: 0;
+      transform: translateY(10px) scale(.95);
+      transition: opacity .35s ease, transform .35s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .float-cta.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .float-cta:hover { filter: brightness(1.12); transform: translateY(-2px) scale(1); }
     @keyframes auroraDrift1 {
       0%   { transform: translate(0,0) scale(1); }
       33%  { transform: translate(60px,40px) scale(1.08); }
@@ -1158,8 +1207,9 @@
         gap: 1rem;
         margin-top: 2.5rem;
       }
-      /* On mobile flip cards are tapped — show hint accordingly */
-      .front-hint { display: none; }
+      /* Swap hint text via CSS content override */
+      .front-hint { font-size: 0; }
+      .front-hint::after { content: 'tap to explore'; font-size: .58rem; }
       .const-card { height: 220px; }
 
       /* ── Cases ── */
@@ -2293,6 +2343,64 @@
     solLabelSummer.classList.toggle('active', !isWinter);
     solLabelWinter.classList.toggle('active', isWinter);
   });
+
+  /* ── SCROLL REVEAL ── */
+  (function () {
+    const targets = document.querySelectorAll(
+      '#portfolio .sec-eyebrow, #portfolio .sec-title, #portfolio .sec-body,' +
+      '#portfolio .const-card,' +
+      '#cases .sec-eyebrow, #cases .sec-title, #cases .sec-body, .case-item,' +
+      '#about .sec-eyebrow, #about .sec-title, .text-block, .skills-footer, .edu-block,' +
+      '#contact .sec-eyebrow, #contact .sec-title, #contact .sec-body,' +
+      '.sig-wave-wrap, .mission-ctrl, .contact-alts, .sol-switch'
+    );
+
+    targets.forEach(el => {
+      el.classList.add('reveal');
+      // stagger siblings within grid/list containers
+      const parent = el.closest('.constellation-grid, .cases-list, .about-text, .skills-footer');
+      if (parent) {
+        const idx = Array.from(parent.children).indexOf(el);
+        if (idx > 0 && idx <= 5) el.classList.add('d' + idx);
+      }
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    targets.forEach(el => io.observe(el));
+  })();
+
+  /* ── FLOATING CTA ── */
+  (function () {
+    const btn = document.createElement('button');
+    btn.className = 'float-cta';
+    btn.textContent = "Let's Talk ↗";
+    btn.addEventListener('click', () => {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    });
+    document.body.appendChild(btn);
+
+    const hero    = document.getElementById('hero');
+    const contact = document.getElementById('contact');
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.target === hero && !e.isIntersecting)    btn.classList.add('show');
+        if (e.target === hero && e.isIntersecting)     btn.classList.remove('show');
+        if (e.target === contact && e.isIntersecting)  btn.classList.remove('show');
+      });
+    }, { threshold: 0.15 });
+
+    io.observe(hero);
+    io.observe(contact);
+  })();
 
   /* Boost star brightness on scroll, decays via scrollGlow *= 0.96 in frame() */
   window.addEventListener('scroll', () => { scrollGlow = Math.min(scrollGlow + 0.5, 1.0); });
