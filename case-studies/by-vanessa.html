@@ -143,6 +143,12 @@
               <button class="cs-swiper-btn cs-swiper-next" id="next-de" aria-label="Next page">›</button>
               <div class="cs-swiper-dots" id="dots-de"></div>
             </div>
+            <div style="margin-top:.9rem;text-align:center;">
+              <a class="cs-live-btn de-buy-link" href="https://payhip.com/ErnaehrungKinder" target="_blank" rel="noopener">
+                <span class="t-en">Buy the German Edition →</span>
+                <span class="t-de" style="display:none">Deutsche Version kaufen →</span>
+              </a>
+            </div>
           </div>
 
           <div class="cs-swiper-col">
@@ -177,6 +183,16 @@
   </div>
 </main>
 
+<script>
+/* Translate buy-link based on main site language preference */
+(function () {
+  const lang = localStorage.getItem('si-lang') || 'en';
+  if (lang === 'de') {
+    document.querySelectorAll('.t-en').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.t-de').forEach(el => el.style.display = '');
+  }
+})();
+</script>
 <script src="cosmic.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
