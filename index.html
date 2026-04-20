@@ -736,8 +736,46 @@
     }
 
     /* ── CONTACT ── */
-    #contact { background: rgba(4,5,26,.9); }
-    #contact .sec-inner { text-align: center; }
+    #contact {
+      position: relative;
+      /* Day/night gradient: deep space at top bleeds into warm solstice gold at the horizon */
+      background:
+        radial-gradient(ellipse 80% 45% at 50% 100%, rgba(212,168,71,.20) 0%, rgba(107,63,160,.07) 52%, transparent 72%),
+        linear-gradient(to bottom, rgba(4,5,26,1) 0%, rgba(8,5,28,1) 58%, rgba(16,9,18,1) 100%);
+    }
+    /* Horizon line — the solstice sun's position on the horizon */
+    #contact::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(212,168,71,.18) 18%,
+        rgba(212,168,71,.55) 38%,
+        rgba(255,215,80,.72) 50%,
+        rgba(212,168,71,.55) 62%,
+        rgba(212,168,71,.18) 82%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+    /* Half-risen sun at the solstice horizon */
+    #contact::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 24px; height: 12px;
+      border-radius: 24px 24px 0 0;
+      background: rgba(255,210,65,.94);
+      box-shadow:
+        0 0 18px rgba(212,168,71,.9),
+        0 0 55px rgba(212,168,71,.5),
+        0 0 110px rgba(212,168,71,.22);
+      pointer-events: none;
+    }
+    #contact .sec-inner { text-align: center; position: relative; z-index: 1; }
     #contact .sec-eyebrow,
     #contact .sec-title { text-align: center; }
     #contact .sec-body { text-align: center; max-width: 520px; margin-left: auto; margin-right: auto; }
