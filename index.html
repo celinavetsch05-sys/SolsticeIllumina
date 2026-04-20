@@ -1418,7 +1418,7 @@
       sy = -5;
     } else {
       sx = -5;                      /* left edge */
-      sy = Math.random() * VH * 0.7;
+      sy = Math.random() * H * 0.85;
     }
     shootingStars.push({
       x: sx, y: sy,
@@ -1490,7 +1490,7 @@
     for (const pat of CONST_PATTERNS) {
       const pts = pat.stars.map(([nx, ny]) => ({
         x: nx * W,
-        y: ny * VH
+        y: ny * H
       }));
       /* connecting lines */
       ctx.lineWidth = 0.65;
@@ -1523,7 +1523,7 @@
       spawnShooter();
       nextShootTime = t + 3.5 + Math.random() * 5;
     }
-    shootingStars = shootingStars.filter(s => s.life > 0 && s.y < VH + 20);
+    shootingStars = shootingStars.filter(s => s.life > 0 && s.y < H + 20);
     for (const s of shootingStars) {
       s.x += s.vx * dt;
       s.y += s.vy * dt;
