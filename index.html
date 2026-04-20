@@ -904,11 +904,31 @@
       font-size: .86rem;
       font-family: sans-serif;
       outline: none;
-      transition: border-color .2s;
+      transition: border-color .3s, box-shadow .3s, background .3s;
       resize: none;
     }
     .ctrl-field input:focus,
-    .ctrl-field textarea:focus { border-color: rgba(196,168,255,.4); }
+    .ctrl-field textarea:focus {
+      border-color: rgba(196,168,255,.65);
+      background: rgba(107,63,160,.09);
+      box-shadow: 0 0 0 3px rgba(196,168,255,.12), 0 0 18px rgba(107,63,160,.22);
+    }
+    #contact.winter .ctrl-field input:focus,
+    #contact.winter .ctrl-field textarea:focus {
+      border-color: rgba(141,232,216,.6);
+      background: rgba(141,232,216,.06);
+      box-shadow: 0 0 0 3px rgba(141,232,216,.10), 0 0 18px rgba(141,232,216,.18);
+    }
+    /* Signal wave */
+    .sig-wave-wrap {
+      margin: 0 auto 1.8rem;
+      width: 100%;
+      max-width: 520px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    #sigWave { width: 100%; height: 36px; display: block; }
     .ctrl-field input::placeholder,
     .ctrl-field textarea::placeholder { color: rgba(120,110,154,.45); }
     .ctrl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -1423,6 +1443,8 @@
     <h2 class="sec-title">Mission <em>control</em></h2>
     <p class="sec-body">Got a project in mind? Open a channel. I'd love to hear about it.</p>
 
+    <div class="sig-wave-wrap"><canvas id="sigWave"></canvas></div>
+
     <div class="mission-ctrl">
       <div class="ctrl-header">
         <div class="ctrl-dot green"></div>
@@ -1774,6 +1796,65 @@
     burger.classList.remove('open');
     burger.setAttribute('aria-expanded', 'false');
   }));
+
+  /* Signal wave */
+  (function () {
+    const cv = document.getElementById('sigWave');
+    if (!cv) return;
+    const cx = cv.getContext('2d');
+    let sw = 0, sh = 36, wt = 0, energy = 0, targetEnergy = 0;
+
+    function resizeWave() {
+      sw = cv.width = cv.offsetWidth;
+      sh = cv.height = cv.offsetHeight || 36;
+    }
+    resizeWave();
+    window.addEventListener('resize', resizeWave);
+
+    /* Boost energy while any contact input is active */
+    document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(el => {
+      el.addEventListener('focus', () => { targetEnergy = 1; });
+      el.addEventListener('blur',  () => { targetEnergy = 0; });
+      el.addEventListener('input', () => { targetEnergy = 1; energy = Math.min(energy + 0.15, 1); });
+    });
+
+    function drawWave(ts) {
+      wt = ts * 0.001;
+      energy += (targetEnergy - energy) * 0.04;
+
+      cx.clearRect(0, 0, sw, sh);
+
+      const isWinter = document.getElementById('contact').classList.contains('winter');
+      const baseCol  = isWinter ? '141,232,216' : '196,168,255';
+      const goldCol  = isWinter ? '141,232,216' : '212,168,71';
+
+      const baseAmp  = 3 + energy * 9;
+      const midY     = sh / 2;
+
+      /* draw 3 staggered sine layers */
+      const layers = [
+        { freq: 0.016, speed: 0.9,  amp: baseAmp,        alpha: 0.18 + energy * 0.22, col: baseCol },
+        { freq: 0.024, speed: 1.4,  amp: baseAmp * 0.65, alpha: 0.28 + energy * 0.30, col: baseCol },
+        { freq: 0.011, speed: 0.55, amp: baseAmp * 0.45, alpha: 0.14 + energy * 0.16, col: goldCol  },
+      ];
+
+      for (const l of layers) {
+        cx.beginPath();
+        for (let i = 0; i <= sw; i++) {
+          const y = midY
+            + Math.sin(i * l.freq + wt * l.speed) * l.amp
+            + Math.sin(i * l.freq * 1.7 + wt * l.speed * 0.6) * l.amp * 0.4;
+          i === 0 ? cx.moveTo(i, y) : cx.lineTo(i, y);
+        }
+        cx.strokeStyle = `rgba(${l.col},${l.alpha.toFixed(2)})`;
+        cx.lineWidth = energy > 0.1 ? 1.5 : 1;
+        cx.stroke();
+      }
+
+      requestAnimationFrame(drawWave);
+    }
+    requestAnimationFrame(drawWave);
+  })();
 
   /* Solstice toggle */
   const solToggle = document.getElementById('solToggle');
