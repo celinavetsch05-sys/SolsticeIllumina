@@ -311,6 +311,68 @@
     } /* close #hero */
     @keyframes spulse { 0%,100%{opacity:.3} 50%{opacity:1} }
 
+    /* ── HERO ORBS ── */
+    .hero-aurora {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0;
+      animation: auroraFade 4s ease forwards;
+    }
+    .aurora-blob-1 {
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(107,63,160,0.32) 0%, transparent 70%);
+      top: -10%; left: -5%;
+      animation: auroraFade 3s ease forwards, auroraDrift1 28s ease-in-out 3s infinite alternate;
+    }
+    .aurora-blob-2 {
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(141,232,216,0.14) 0%, transparent 65%);
+      top: 10%; right: -8%;
+      animation: auroraFade 3.5s 0.6s ease forwards, auroraDrift2 34s ease-in-out 3.5s infinite alternate;
+    }
+    .aurora-blob-3 {
+      width: 550px; height: 400px;
+      background: radial-gradient(ellipse, rgba(196,168,255,0.18) 0%, transparent 70%);
+      bottom: -5%; left: 20%;
+      animation: auroraFade 4s 1s ease forwards, auroraDrift3 38s ease-in-out 4s infinite alternate;
+    }
+    .aurora-blob-4 {
+      width: 400px; height: 350px;
+      background: radial-gradient(ellipse, rgba(212,168,71,0.08) 0%, transparent 65%);
+      top: 30%; left: 35%;
+      animation: auroraFade 5s 1.5s ease forwards, auroraPulse 22s ease-in-out 5s infinite alternate;
+    }
+    @keyframes auroraFade { to { opacity: 1; } }
+    @keyframes auroraDrift1 {
+      0%   { transform: translate(0,0) scale(1); }
+      33%  { transform: translate(60px,40px) scale(1.08); }
+      66%  { transform: translate(20px,80px) scale(0.95); }
+      100% { transform: translate(80px,30px) scale(1.05); }
+    }
+    @keyframes auroraDrift2 {
+      0%   { transform: translate(0,0) scale(1); }
+      40%  { transform: translate(-50px,60px) scale(1.1); }
+      100% { transform: translate(-80px,20px) scale(0.92); }
+    }
+    @keyframes auroraDrift3 {
+      0%   { transform: translate(0,0) scale(1); }
+      50%  { transform: translate(40px,-50px) scale(1.06); }
+      100% { transform: translate(-30px,-80px) scale(1.12); }
+    }
+    @keyframes auroraPulse {
+      0%   { opacity: 0.5; transform: scale(1); }
+      50%  { opacity: 1;   transform: scale(1.15); }
+      100% { opacity: 0.5; transform: scale(0.9); }
+    }
+    #hero > *:not(.hero-aurora) { position: relative; z-index: 1; }
+
     /* ── PORTFOLIO ── */
     #portfolio { background: rgba(8,4,20,.6); }
     .constellation-grid {
@@ -570,97 +632,105 @@
     #about { background: rgba(10,6,26,.65); }
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
+      grid-template-columns: 220px 1fr;
+      gap: 4rem;
       align-items: start;
-      margin-top: 3rem;
     }
     @media (max-width: 740px) { .about-grid { grid-template-columns: 1fr; } }
     .about-visual {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding-top: 1rem;
+      padding-top: .5rem;
     }
-    .about-text .sec-body { margin-bottom: 1.2rem; }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
+    /* Text blocks with dividers */
+    .about-text { display: flex; flex-direction: column; }
+    .text-block {
+      padding-bottom: 1.4rem;
+      border-bottom: 1px solid rgba(196,168,255,.08);
+      margin-bottom: 1.4rem;
     }
-    /* pull quote */
-    .about-quote {
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
+    .text-block:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .block-tag {
+      font-size: .47rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: sans-serif;
+      margin-bottom: .55rem;
+    }
+    .block-p {
+      font-size: .93rem;
+      color: rgba(240,236,255,.82);
+      line-height: 1.8;
+      font-family: sans-serif;
+      font-weight: 300;
+      max-width: 480px;
+    }
+    .block-perspective .block-p {
       font-style: italic;
-      color: var(--stardust);
-      line-height: 1.55;
-      padding-left: 1.2rem;
-      border-left: 2px solid var(--lumina);
-      margin: 1.5rem 0 1.8rem;
       font-family: Georgia, serif;
+      font-size: 1rem;
+      color: var(--lumina);
+      font-weight: 400;
     }
-    /* skill clusters */
-    .skills-clusters { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
-    .skill-cluster { display: flex; align-items: flex-start; gap: .75rem; }
-    .skill-cluster-label {
-      font-size: .58rem;
-      letter-spacing: .22em;
+    /* Skills footer: 4-column plain text */
+    .skills-footer {
+      margin-top: 2.8rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(196,168,255,.1);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 740px) { .skills-footer { grid-template-columns: repeat(2, 1fr); } }
+    .skill-col-label {
+      font-size: .47rem;
+      letter-spacing: .28em;
       text-transform: uppercase;
       color: var(--lumina);
       font-family: sans-serif;
-      padding-top: .35rem;
-      min-width: 52px;
-      flex-shrink: 0;
+      margin-bottom: .6rem;
     }
-    .skill-pills { display: flex; flex-wrap: wrap; gap: .45rem; }
-    .skill-pill {
-      font-size: .72rem;
+    .skill-col-list { display: flex; flex-direction: column; gap: .22rem; }
+    .skill-col-list span {
+      font-size: .68rem;
+      color: rgba(240,236,255,.42);
       font-family: sans-serif;
-      color: var(--stardust);
-      background: rgba(196,168,255,.07);
-      border: 1px solid rgba(196,168,255,.18);
-      border-radius: 20px;
-      padding: .28rem .75rem;
-      transition: background .2s, border-color .2s, box-shadow .2s;
+      line-height: 1.5;
     }
-    .skill-pill:hover {
-      background: rgba(196,168,255,.15);
-      border-color: rgba(196,168,255,.45);
-      box-shadow: 0 0 10px rgba(196,168,255,.2);
-    }
-    /* education timeline */
+    /* Education timeline */
     .edu-block {
-      margin-top: 2rem;
-      padding: 1.2rem 1.4rem;
-      border-left: 2px solid rgba(196,168,255,.25);
+      margin-top: 2.5rem;
+      padding: 1.1rem 1.3rem;
+      border-left: 2px solid rgba(196,168,255,.2);
       position: relative;
     }
     .edu-block::before {
       content: '';
       position: absolute;
-      left: -5px; top: 1.4rem;
+      left: -5px; top: 1.3rem;
       width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--lumina);
-      box-shadow: 0 0 8px rgba(196,168,255,.6);
+      box-shadow: 0 0 8px rgba(196,168,255,.55);
     }
     .edu-school {
       font-size: .88rem;
+      color: rgba(240,236,255,.8);
+      font-family: sans-serif;
       font-weight: 400;
-      color: var(--stardust);
-      margin-bottom: .25rem;
-      font-family: sans-serif;
-    }
-    .edu-degree {
-      font-size: .78rem;
-      color: var(--lumina);
-      font-family: sans-serif;
       margin-bottom: .2rem;
     }
+    .edu-degree {
+      font-size: .72rem;
+      color: var(--lumina);
+      font-family: sans-serif;
+      margin-bottom: .3rem;
+    }
     .edu-detail {
-      font-size: .75rem;
-      color: var(--muted);
+      font-size: .64rem;
+      color: rgba(240,236,255,.35);
       font-family: sans-serif;
       line-height: 1.6;
     }
@@ -855,6 +925,12 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
+  <div class="hero-aurora" aria-hidden="true">
+    <div class="aurora-blob aurora-blob-1"></div>
+    <div class="aurora-blob aurora-blob-2"></div>
+    <div class="aurora-blob aurora-blob-3"></div>
+    <div class="aurora-blob aurora-blob-4"></div>
+  </div>
 <p class="hero-eyebrow">Brand Identity | Web Design | Content</p>
 
   <div class="hero-logo-mark">
@@ -887,7 +963,7 @@
     <button class="btn-p" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">View Projects</button>
     <button class="btn-g" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start a Project</button>
   </div>
-  <p class="hero-supporting">Identity, website, and content built as one system — not separate deliverables.</p>
+  <p class="hero-supporting">Brand identity, web design, and content. One person, start to finish.</p>
 
   <div class="scroll-cue">
     <span>Scroll</span>
@@ -934,7 +1010,7 @@
           <div class="card-back">
             <p class="card-tag">Brand Strategy · Social</p>
             <h3 class="card-title">Brand Identity</h3>
-            <p class="card-desc">Full brand systems — logo, color palette, audience analysis, and content pillars.<br>So every touchpoint feels like the same brand, not a collection of separate assets.</p>
+            <p class="card-desc">Full brand systems, including logo, color palette, audience analysis, and content pillars.<br>So every touchpoint feels like the same brand, not a collection of separate assets.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -951,7 +1027,7 @@
           <div class="card-back">
             <p class="card-tag">Social Media · Content Design</p>
             <h3 class="card-title">Social Content</h3>
-            <p class="card-desc">Carousel layouts and feed visuals for multiple clients.<br>Each post designed around their audience — what they need to see, not just what looks good.</p>
+            <p class="card-desc">Carousel layouts and feed visuals for multiple clients.<br>Each post designed around their audience, what they need to see, not just what looks good.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -968,7 +1044,7 @@
           <div class="card-back">
             <p class="card-tag">Web Design · Landing Pages</p>
             <h3 class="card-title">Web Design</h3>
-            <p class="card-desc">Responsive websites and landing pages for small businesses.<br>Clear hierarchy and structure — built so visitors know what to do next.</p>
+            <p class="card-desc">Responsive websites and landing pages for small businesses.<br>Clear hierarchy and structure, built so visitors know what to do next.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -985,7 +1061,7 @@
           <div class="card-back">
             <p class="card-tag">Graphic Design · Print &amp; Digital</p>
             <h3 class="card-title">Print &amp; Promotional</h3>
-            <p class="card-desc">Flyers, event graphics, and product information cards for various clients.<br>Built for specific markets and contexts — not generic templates.</p>
+            <p class="card-desc">Flyers, event graphics, and product information cards for various clients.<br>Built for specific markets and contexts, not generic templates.</p>
             <a class="card-link" href="#">View project →</a>
           </div>
         </div>
@@ -1011,7 +1087,7 @@
         <div class="case-info">
           <h3 class="case-title">Mind Heart Finance</h3>
           <p class="case-gloss">Making finance feel human</p>
-          <p class="case-outcome">From undefined to launch-ready — a financial brand built to make complexity feel approachable.</p>
+          <p class="case-outcome">From undefined to launch-ready. A financial brand built to make complexity feel approachable.</p>
           <div class="case-tags">
             <span class="case-tag">Brand Strategy</span>
             <span class="case-tag">Logo</span>
@@ -1024,7 +1100,7 @@
         <span class="case-num">002</span>
         <div class="case-info">
           <h3 class="case-title">Energie im Wachstum</h3>
-          <p class="case-gloss">"Energy in growth" — By Vanessa</p>
+          <p class="case-gloss">"Energy in growth," by Vanessa</p>
           <p class="case-outcome">Scattered content became a recognizable system. Her offer now reads as clearly as it sounds.</p>
           <div class="case-tags">
             <span class="case-tag">Identity</span>
@@ -1054,7 +1130,7 @@
         <div class="case-info">
           <h3 class="case-title">Larcher &amp; Fahrion</h3>
           <p class="case-gloss">Bavaria, now online</p>
-          <p class="case-outcome">Their first website — clear enough to understand the offer, direct enough to go straight to booking.</p>
+          <p class="case-outcome">Their first website, clear enough to understand the offer, direct enough to go straight to booking.</p>
           <div class="case-tags">
             <span class="case-tag">Web Design</span>
             <span class="case-tag">Copywriting</span>
@@ -1073,6 +1149,8 @@
 <section id="about">
   <div class="sec-inner">
     <p class="sec-eyebrow">03 · About</p>
+    <h2 class="sec-title">Guided by <em>clarity</em></h2>
+
     <div class="about-grid">
 
       <div class="about-visual">
@@ -1098,59 +1176,72 @@
       </div>
 
       <div class="about-text">
-        <h2 class="sec-title">Guided by <em>clarity</em></h2>
-        <p class="sec-body">I'm Celina — a designer based in Bali, originally from Switzerland. I help small businesses and growing brands find their visual voice through logo design, brand identity, web design, and social media content.</p>
-        <p class="sec-body" style="margin-top:.8rem">Fresh out of a double degree in Graphic Design and Web Design, I bring both aesthetic sensibility and technical grounding to every project.</p>
 
-        <blockquote class="about-quote">Good design isn't decoration — it's communication.</blockquote>
-
-        <div class="skills-clusters">
-          <div class="skill-cluster">
-            <span class="skill-cluster-label">Design</span>
-            <div class="skill-pills">
-              <span class="skill-pill">Logo Design</span>
-              <span class="skill-pill">Brand Identity</span>
-              <span class="skill-pill">Typography</span>
-              <span class="skill-pill">Layout</span>
-              <span class="skill-pill">Print</span>
-            </div>
-          </div>
-          <div class="skill-cluster">
-            <span class="skill-cluster-label">Web</span>
-            <div class="skill-pills">
-              <span class="skill-pill">Landing Pages</span>
-              <span class="skill-pill">Responsive Design</span>
-              <span class="skill-pill">HTML / CSS</span>
-              <span class="skill-pill">UX Basics</span>
-            </div>
-          </div>
-          <div class="skill-cluster">
-            <span class="skill-cluster-label">Content</span>
-            <div class="skill-pills">
-              <span class="skill-pill">Social Media</span>
-              <span class="skill-pill">Photo Editing</span>
-              <span class="skill-pill">Video Editing</span>
-              <span class="skill-pill">Content Strategy</span>
-            </div>
-          </div>
-          <div class="skill-cluster">
-            <span class="skill-cluster-label">Tools</span>
-            <div class="skill-pills">
-              <span class="skill-pill">Canva Pro</span>
-              <span class="skill-pill">Figma</span>
-              <span class="skill-pill">Adobe Suite</span>
-              <span class="skill-pill">Webflow</span>
-            </div>
-          </div>
+        <div class="text-block">
+          <p class="block-tag">Intro</p>
+          <p class="block-p">I'm Celina, a designer based in Bali, originally from Germany. I design brand identities, websites, and content that make businesses easier to understand and easier to trust.</p>
         </div>
 
-        <div class="edu-block">
-          <div class="edu-school">OfG Schule der Gestaltung, University of Arts</div>
-          <div class="edu-degree">Double Degree — Graphic Design &amp; Web Design, 2024</div>
-          <div class="edu-detail">Visual communication · Branding · Typography · UX · Responsive interfaces</div>
+        <div class="text-block">
+          <p class="block-tag">Approach</p>
+          <p class="block-p">I handle the full process myself, so your brand stays consistent from first idea to final output. With a background in both graphic and web design, I focus on work that not only looks right but functions clearly in real use.</p>
+        </div>
+
+        <div class="text-block block-perspective">
+          <p class="block-tag">Perspective</p>
+          <p class="block-p">Good design isn't decoration, it's communication.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="skills-footer">
+      <div>
+        <p class="skill-col-label">Design</p>
+        <div class="skill-col-list">
+          <span>Logo Design</span>
+          <span>Brand Identity</span>
+          <span>Typography</span>
+          <span>Layout</span>
+          <span>Print</span>
+        </div>
+      </div>
+      <div>
+        <p class="skill-col-label">Web</p>
+        <div class="skill-col-list">
+          <span>Websites, one-page to full-scale</span>
+          <span>Landing Pages</span>
+          <span>Responsive Design</span>
+          <span>HTML / CSS</span>
+          <span>UX Basics</span>
+        </div>
+      </div>
+      <div>
+        <p class="skill-col-label">Content</p>
+        <div class="skill-col-list">
+          <span>Social Media</span>
+          <span>Photo Editing</span>
+          <span>Video Editing</span>
+          <span>Content Strategy</span>
+        </div>
+      </div>
+      <div>
+        <p class="skill-col-label">Tools</p>
+        <div class="skill-col-list">
+          <span>Figma</span>
+          <span>Adobe Suite</span>
+          <span>Canva Pro</span>
+          <span>Webflow</span>
         </div>
       </div>
     </div>
+
+    <div class="edu-block">
+      <div class="edu-school">OfG Schule der Gestaltung, University of Arts</div>
+      <div class="edu-degree">Double Degree, Graphic Design &amp; Web Design, 2024</div>
+      <div class="edu-detail">Visual communication · Branding · Typography · UX · Responsive interfaces</div>
+    </div>
+
   </div>
 </section>
 
@@ -1161,7 +1252,7 @@
   <div class="sec-inner">
     <p class="sec-eyebrow">04 · Contact</p>
     <h2 class="sec-title">Mission <em>control</em></h2>
-    <p class="sec-body">Got a project in mind? Open a channel — I'd love to hear about it.</p>
+    <p class="sec-body">Got a project in mind? Open a channel. I'd love to hear about it.</p>
 
     <div class="mission-ctrl">
       <div class="ctrl-header">
@@ -1281,7 +1372,7 @@
         ph:  Math.random() * Math.PI * 2
       });
     }
-    /* Hero constellation stars — denser cluster in hero viewport */
+    /* Hero constellation stars, denser cluster in hero viewport */
     heroStars = [];
     for (let i = 0; i < 72; i++) {
       heroStars.push({
@@ -1312,7 +1403,7 @@
       ctx.fill();
     }
 
-    /* Hero constellation — parallax positions */
+    /* Hero constellation, parallax positions */
     const px = (mx - 0.5) * 38;
     const py = (my - 0.5) * 24;
     const positioned = heroStars.map(s => ({
