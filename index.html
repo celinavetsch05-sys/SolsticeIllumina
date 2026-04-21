@@ -353,30 +353,7 @@
       transition: background .2s, transform .15s;
     }
     .btn-g:hover { background: rgba(196,168,255,.07); transform: translateY(-2px); }
-    .scroll-cue {
-      position: absolute;
-      bottom: 2.5rem; left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .5rem;
-      opacity: .35;
-    }
-    .scroll-cue span {
-      font-size: .58rem;
-      letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-family: sans-serif;
-    }
-    .scroll-line {
-      width: 1px; height: 34px;
-      background: linear-gradient(to bottom, var(--lumina), transparent);
-      animation: spulse 2s ease-in-out infinite;
-    }
     } /* close #hero */
-    @keyframes spulse { 0%,100%{opacity:.3} 50%{opacity:1} }
 
     /* ── HERO ORBS ── */
     .hero-aurora {
@@ -423,7 +400,7 @@
       .aurora-blob { animation: auroraFade 3s ease forwards !important; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .aurora-blob, .scroll-line { animation: none !important; }
+      .aurora-blob { animation: none !important; }
     }
 
     /* ── SCROLL REVEAL ── */
@@ -1067,31 +1044,104 @@
     .contact-alt a:hover { text-decoration: underline; }
 
     /* ── FOOTER ── */
-    footer {
+    .site-footer {
       position: relative;
       z-index: 1;
-      padding: 2.5rem 4rem;
       border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 3rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .foot-logo {
+      font-size: .92rem;
+      font-weight: 300;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--stardust);
+      margin-bottom: .75rem;
+    }
+    .foot-logo span { color: var(--lumina); }
+    .foot-tagline {
+      font-size: .78rem;
+      color: var(--muted);
+      font-family: sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 1.4rem;
+    }
+    .foot-cta-link {
+      display: inline-flex;
+      align-items: center;
+      font-size: .66rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-family: sans-serif;
+      color: var(--lumina);
+      text-decoration: none;
+      border: 1px solid rgba(196,168,255,.3);
+      border-radius: 30px;
+      padding: .55rem 1.2rem;
+      transition: background .2s, border-color .2s;
+    }
+    .foot-cta-link:hover { background: rgba(196,168,255,.08); border-color: rgba(196,168,255,.55); }
+    .foot-col-label {
+      font-size: .52rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--lumina);
+      font-family: sans-serif;
+      margin-bottom: .9rem;
+    }
+    .footer-nav ul,
+    .footer-contact ul { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .footer-nav a,
+    .footer-contact a {
+      font-size: .78rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-family: sans-serif;
+      transition: color .2s;
+    }
+    .footer-nav a:hover,
+    .footer-contact a:hover { color: var(--lumina); }
+    .foot-location {
+      font-size: .78rem;
+      color: rgba(240,236,255,.25);
+      font-family: sans-serif;
+    }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.4rem 3rem;
+      border-top: 1px solid rgba(196,168,255,.06);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    .foot-logo {
-      font-size: .9rem;
-      font-weight: 300;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--stardust);
-    }
-    .foot-logo span { color: var(--lumina); }
     .foot-copy {
-      font-size: .62rem;
-      letter-spacing: .18em;
-      color: var(--muted);
+      font-size: .6rem;
+      letter-spacing: .16em;
+      color: rgba(120,110,154,.45);
       font-family: sans-serif;
     }
+    .foot-legal { display: flex; gap: 1.5rem; }
+    .foot-legal a {
+      font-size: .6rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(120,110,154,.45);
+      font-family: sans-serif;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .foot-legal a:hover { color: var(--lumina); }
 
     /* ── RESPONSIVE ── */
     /* ── HAMBURGER ── */
@@ -1232,7 +1282,6 @@
         align-items: center;
       }
       .hero-supporting { display: none; } /* redundant on mobile */
-      .scroll-cue { display: none; }
 
       /* Aurora orbs — smaller on mobile, no overflow */
       .aurora-blob-1 { width: 340px; height: 260px; }
@@ -1300,12 +1349,18 @@
       .sig-wave-wrap   { margin-bottom: 1.2rem; }
 
       /* ── Footer ── */
-      footer {
-        padding: 1.8rem 1.4rem;
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 3rem 1.4rem 2rem;
+      }
+      .footer-bottom {
+        padding: 1.2rem 1.4rem;
         flex-direction: column;
         gap: .6rem;
         text-align: center;
       }
+      .foot-legal { justify-content: center; }
     }
 
     /* ══════════════════════════════════════
@@ -1773,9 +1828,48 @@
 </section>
 
 <!-- ── FOOTER ── -->
-<footer>
-  <div class="foot-logo">Solstice <span>Illumina</span></div>
-  <span class="foot-copy">© 2026 Celina Vetsch · All rights reserved</span>
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="foot-logo">Solstice <span>Illumina</span></div>
+      <p class="foot-tagline">Brand identity and web design,<br>one person, start to finish.</p>
+      <a class="foot-cta-link" href="#contact">Start a Project →</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <p class="foot-col-label">Pages</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#portfolio">Work</a></li>
+        <li><a href="#cases">Case Studies</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Contact -->
+    <div class="footer-contact">
+      <p class="foot-col-label">Reach Out</p>
+      <ul>
+        <li><a href="mailto:celinavetsch15@outlook.com">celinavetsch15@outlook.com</a></li>
+        <li><a href="https://wa.me/6281237829976" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><span class="foot-location">Based in Bali · From Germany</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar: copyright + legal -->
+  <div class="footer-bottom">
+    <p class="foot-copy">© <span id="footYear"></span> Celina Vetsch · All rights reserved</p>
+    <div class="foot-legal">
+      <a href="/impressum.html">Impressum</a>
+      <a href="/datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
 </footer>
 
 <!-- ── SCRIPTS ── -->
@@ -1854,7 +1948,8 @@
     }
     /* Hero constellation stars, denser cluster in hero viewport */
     heroStars = [];
-    for (let i = 0; i < 72; i++) {
+    const heroStarCount = W < 768 ? 28 : 72;
+    for (let i = 0; i < heroStarCount; i++) {
       heroStars.push({
         bx:  Math.random() * W,              /* base x */
         by:  Math.random() * H * 0.92,       /* base y, within hero */
@@ -1914,21 +2009,23 @@
       r: s.r, a: s.a, spd: s.spd, ph: s.ph
     }));
 
-    /* Constellation lines */
-    const LINK = 155;
-    for (let i = 0; i < positioned.length; i++) {
-      for (let j = i + 1; j < positioned.length; j++) {
-        const dx = positioned[i].x - positioned[j].x;
-        const dy = positioned[i].y - positioned[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < LINK) {
-          const lineA = (1 - dist / LINK) * 0.22;
-          ctx.beginPath();
-          ctx.moveTo(positioned[i].x, positioned[i].y);
-          ctx.lineTo(positioned[j].x, positioned[j].y);
-          ctx.strokeStyle = `rgba(196,168,255,${lineA})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
+    /* Constellation lines — desktop only */
+    if (W >= 768) {
+      const LINK = 155;
+      for (let i = 0; i < positioned.length; i++) {
+        for (let j = i + 1; j < positioned.length; j++) {
+          const dx = positioned[i].x - positioned[j].x;
+          const dy = positioned[i].y - positioned[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < LINK) {
+            const lineA = (1 - dist / LINK) * 0.22;
+            ctx.beginPath();
+            ctx.moveTo(positioned[i].x, positioned[i].y);
+            ctx.lineTo(positioned[j].x, positioned[j].y);
+            ctx.strokeStyle = `rgba(196,168,255,${lineA})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
         }
       }
     }
@@ -2054,7 +2151,6 @@
         heroSub: 'Most founders split this between a designer and a developer. I handle both, so your brand stays consistent from logo to live site.',
         heroBtnView: 'View Projects', heroBtnStart: 'Start a Project',
         heroSupporting: 'Brand identity, web design, and content. One person, start to finish.',
-        heroScroll: 'Scroll',
         // Portfolio
         portEyebrow: '01 · Selected Work',
         portTitle: 'Selected <em>Work</em>',
@@ -2106,7 +2202,6 @@
         phMessage: "Tell me about your project and what you're looking for...",
         submitBtn: 'Initiate Transmission',
         solSummer: '☀ Summer Solstice', solWinter: '☽ Winter Solstice',
-        footCopy: '© 2026 Celina Vetsch · All rights reserved',
       },
       de: {
         navWork: 'Arbeit', navCases: 'Fallstudien', navAbout: 'Über mich', navCta: 'Kontakt',
@@ -2115,7 +2210,6 @@
         heroSub: 'Die meisten Gründer teilen das zwischen Designer und Entwickler auf. Ich übernehme beides, damit deine Marke vom Logo bis zur fertigen Website konsistent bleibt.',
         heroBtnView: 'Projekte ansehen', heroBtnStart: 'Projekt starten',
         heroSupporting: 'Markenidentität, Webdesign und Content. Eine Person, von Anfang bis Ende.',
-        heroScroll: 'Scrollen',
         portEyebrow: '01 · Ausgewählte Arbeiten',
         portTitle: 'Ausgewählte <em>Arbeiten</em>',
         portBody: 'Projekte aus Markenidentität, Webdesign und Content.<br>Jedes mit einem konkreten Problem und einem klaren Ergebnis.',
@@ -2163,7 +2257,6 @@
         phMessage: 'Erzähl mir von deinem Projekt und was du dir vorstellst...',
         submitBtn: 'Übertragung starten',
         solSummer: '☀ Sommersonnenwende', solWinter: '☽ Wintersonnenwende',
-        footCopy: '© 2026 Celina Vetsch · Alle Rechte vorbehalten',
       }
     };
 
@@ -2178,7 +2271,6 @@
       ['.btn-p', 'heroBtnView', 'text'],
       ['.btn-g', 'heroBtnStart', 'text'],
       ['.hero-supporting', 'heroSupporting', 'text'],
-      ['.scroll-cue span', 'heroScroll', 'text'],
       ['#portfolio .sec-eyebrow', 'portEyebrow', 'text'],
       ['#portfolio .sec-title', 'portTitle', 'html'],
       ['#portfolio .sec-body', 'portBody', 'html'],
@@ -2243,7 +2335,6 @@
       ['.ctrl-submit', 'submitBtn', 'text'],
       ['#solLabelSummer', 'solSummer', 'text'],
       ['#solLabelWinter', 'solWinter', 'text'],
-      ['.foot-copy', 'footCopy', 'text'],
     ];
 
     function setLang(lang) {
@@ -2413,6 +2504,9 @@
   window.addEventListener('resize', resize);
   resize();
   requestAnimationFrame(frame);
+
+  /* Dynamic copyright year */
+  document.getElementById('footYear').textContent = new Date().getFullYear();
 </script>
 
 </body>
