@@ -154,7 +154,7 @@
       transition: color .2s;
     }
     .nav-menu a:hover, .nav-links a:hover { color: var(--lumina); }
-    .nav-links { display: none; } /* desktop: hidden — mobile drawer only */
+    .nav-links { display: none !important; } /* desktop: hidden — mobile drawer only */
     .drawer-footer { display: none; } /* desktop: hidden — lives in drawer only */
     .nav-item { position: relative; }
     .nav-dropdown {
@@ -1221,7 +1221,7 @@
 
       /* Mobile nav drawer */
       .nav-links {
-        display: flex;
+        display: flex !important;
         position: fixed;
         top: 0; left: 0; right: 0;
         flex-direction: column;
