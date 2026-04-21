@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://solstice-illumina.vercel.app/sitemap.xml

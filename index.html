@@ -3,7 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solstice Illumina</title>
+
+  <title>Celina Vetsch · Brand Identity &amp; Web Designer</title>
+  <meta name="description" content="Freelance brand identity and web designer. Logo design, websites, and social media content — built start to finish by one person.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://solstice-illumina.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://solstice-illumina.vercel.app/">
+  <meta property="og:title" content="Celina Vetsch · Brand Identity &amp; Web Designer">
+  <meta property="og:description" content="Freelance brand identity and web designer. Logo design, websites, and social media content — built start to finish by one person.">
+  <meta property="og:image" content="https://solstice-illumina.vercel.app/favicon.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Celina Vetsch · Brand Identity &amp; Web Designer">
+  <meta name="twitter:description" content="Freelance brand identity and web designer. Logo design, websites, and social media content — built start to finish by one person.">
+  <meta name="twitter:image" content="https://solstice-illumina.vercel.app/favicon.svg">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Celina Vetsch",
+    "url": "https://solstice-illumina.vercel.app/",
+    "jobTitle": "Brand Identity & Web Designer",
+    "description": "Freelance brand identity and web designer offering logo design, web design, and social media content.",
+    "knowsAbout": ["Brand Identity", "Logo Design", "Web Design", "Social Media Content", "Print Design"],
+    "offers": {
+      "@type": "Offer",
+      "itemOffered": [
+        { "@type": "Service", "name": "Brand Identity Design" },
+        { "@type": "Service", "name": "Logo Design" },
+        { "@type": "Service", "name": "Web Design" },
+        { "@type": "Service", "name": "Social Media Content Design" },
+        { "@type": "Service", "name": "Print & Promotional Design" }
+      ]
+    }
+  }
+  </script>
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -23,7 +64,7 @@
       --border: rgba(196,168,255,0.13);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       background: var(--void);
@@ -54,6 +95,7 @@
       pointer-events: none;
       z-index: 9998;
       transform: translate(-50%,-50%);
+      transition: opacity 0.4s ease;
     }
 
     /* ── CANVAS ── */
@@ -88,9 +130,11 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      padding: 1.4rem 0; /* match nav vertical padding so height auto-matches */
+      padding: 1.4rem 0;
       display: flex;
       align-items: center;
+      gap: 2.5rem;
+      list-style: none;
       z-index: 1050;
     }
     .nav-logo {
@@ -106,11 +150,6 @@
     }
     .nav-logo svg { flex-shrink: 0; }
     .nav-logo span { color: var(--lumina); }
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
     .nav-links a {
       font-size: .7rem;
       letter-spacing: .28em;
@@ -345,6 +384,7 @@
       inset: 0;
       pointer-events: none;
       z-index: 0;
+      overflow: hidden;
     }
     .aurora-blob {
       position: absolute;
@@ -1132,10 +1172,9 @@
 
       /* Mobile nav drawer */
       .nav-links {
-        display: flex !important;
+        display: flex;
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: auto !important;
         flex-direction: column;
         align-items: flex-start;
         background: rgba(4,5,26,.97);
@@ -1292,14 +1331,14 @@
 </head>
 <body>
 
-<div class="cursor" id="cur"></div>
-<canvas id="bgCanvas"></canvas>
+<div class="cursor" id="cur" aria-hidden="true"></div>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
 
 <!-- ── NAVIGATION ── -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">
-      <svg viewBox="0 0 80 80" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <a class="nav-logo" href="/">
+      <svg viewBox="0 0 80 80" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="40" cy="40" r="37" stroke="rgba(196,168,255,0.5)" stroke-width="1.2"/>
         <ellipse cx="40" cy="40" rx="25" ry="9" stroke="rgba(196,168,255,0.7)" stroke-width="1.2" transform="rotate(-28 40 40)"/>
         <circle cx="40" cy="40" r="8" fill="url(#ng)"/>
@@ -1320,18 +1359,18 @@
       </svg>
       Solstice <span>Illumina</span>
     </a>
-    <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navDrawer">
       <span></span><span></span><span></span>
     </button>
     <div class="nav-end">
-      <button class="lang-btn" id="langBtn" aria-label="Toggle language"><span class="lang-active" id="langActive">EN</span> / <span id="langOther">DE</span></button>
-      <button class="nav-cta" id="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
+      <button type="button" class="lang-btn" id="langBtn" aria-label="Toggle language"><span class="lang-active" id="langActive">EN</span> / <span id="langOther">DE</span></button>
+      <button type="button" class="nav-cta" id="navCta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Let's Talk</button>
     </div>
   </div>
 </nav>
 
 <!-- Mobile nav drawer — lives outside <nav> so z-index stacks correctly -->
-<ul class="nav-links">
+<ul class="nav-links" id="navDrawer" role="menu">
   <li><a href="#portfolio">Work</a></li>
   <li class="nav-item">
     <a href="case-studies/mind-heart-finance.html">Case Studies</a>
@@ -1347,8 +1386,8 @@
   <li><a href="#about">About</a></li>
   <!-- Mobile-only drawer footer: EN/DE + CTA -->
   <li class="drawer-footer">
-    <button class="lang-btn drawer-lang" id="drawerLangBtn"><span class="lang-active" id="drawerLangActive">EN</span> / <span id="drawerLangOther">DE</span></button>
-    <button class="nav-cta drawer-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});document.querySelector('.nav-links').classList.remove('open');document.getElementById('navBurger').classList.remove('open');document.getElementById('navBurger').setAttribute('aria-expanded','false')">Let's Talk</button>
+    <button type="button" class="lang-btn drawer-lang" id="drawerLangBtn"><span class="lang-active" id="drawerLangActive">EN</span> / <span id="drawerLangOther">DE</span></button>
+    <button type="button" class="nav-cta drawer-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');document.getElementById('navBurger').setAttribute('aria-expanded','false')">Let's Talk</button>
   </li>
 </ul>
 
@@ -1362,7 +1401,7 @@
   </div>
 <p class="hero-eyebrow">Brand Identity | Web Design | Content</p>
 
-  <div class="hero-logo-mark">
+  <div class="hero-logo-mark" aria-hidden="true">
     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="40" cy="40" r="37" stroke="rgba(196,168,255,0.18)" stroke-width="0.8"/>
       <ellipse cx="40" cy="40" rx="25" ry="9" stroke="rgba(196,168,255,0.32)" stroke-width="0.8" transform="rotate(-28 40 40)"/>
@@ -1415,7 +1454,7 @@
       <div class="const-card" id="card-logos">
         <div class="card-inner">
           <div class="card-front">
-            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/></svg>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/></svg>
             <div class="front-cat">Logos</div>
             <div class="front-hint">hover to explore</div>
           </div>
@@ -1423,7 +1462,7 @@
             <p class="card-tag">Brand Identity · Logo Design</p>
             <h3 class="card-title">Logos</h3>
             <p class="card-desc">Brand marks for small businesses and personal brands across different industries.<br>Built to read clearly at any size, across print and digital.</p>
-            <a class="card-link" href="#">View collection →</a>
+            <a class="card-link" href="case-studies/nextra.html">View collection →</a>
           </div>
         </div>
       </div>
@@ -1432,7 +1471,7 @@
       <div class="const-card" id="card-brand">
         <div class="card-inner">
           <div class="card-front">
-            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
             <div class="front-cat">Brand Identity</div>
             <div class="front-hint">hover to explore</div>
           </div>
@@ -1440,7 +1479,7 @@
             <p class="card-tag">Brand Strategy · Social</p>
             <h3 class="card-title">Brand Identity</h3>
             <p class="card-desc">Full brand systems, including logo, color palette, audience analysis, and content pillars.<br>So every touchpoint feels like the same brand, not a collection of separate assets.</p>
-            <a class="card-link" href="#">View project →</a>
+            <a class="card-link" href="case-studies/mind-heart-finance.html">View case study →</a>
           </div>
         </div>
       </div>
@@ -1449,7 +1488,7 @@
       <div class="const-card" id="card-social">
         <div class="card-inner">
           <div class="card-front">
-            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
             <div class="front-cat">Social Content</div>
             <div class="front-hint">hover to explore</div>
           </div>
@@ -1457,7 +1496,7 @@
             <p class="card-tag">Social Media · Content Design</p>
             <h3 class="card-title">Social Content</h3>
             <p class="card-desc">Carousel layouts and feed visuals for multiple clients.<br>Each post designed around their audience, what they need to see, not just what looks good.</p>
-            <a class="card-link" href="#">View project →</a>
+            <a class="card-link" href="case-studies/by-vanessa.html">View case study →</a>
           </div>
         </div>
       </div>
@@ -1466,7 +1505,7 @@
       <div class="const-card" id="card-web">
         <div class="card-inner">
           <div class="card-front">
-            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             <div class="front-cat">Web Design</div>
             <div class="front-hint">hover to explore</div>
           </div>
@@ -1474,7 +1513,7 @@
             <p class="card-tag">Web Design · Landing Pages</p>
             <h3 class="card-title">Web Design</h3>
             <p class="card-desc">Responsive websites and landing pages for small businesses.<br>Clear hierarchy and structure, built so visitors know what to do next.</p>
-            <a class="card-link" href="#">View project →</a>
+            <a class="card-link" href="case-studies/larcher-fahrion.html">View case study →</a>
           </div>
         </div>
       </div>
@@ -1483,7 +1522,7 @@
       <div class="const-card" id="card-print">
         <div class="card-inner">
           <div class="card-front">
-            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            <svg class="front-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
             <div class="front-cat">Print & Promo</div>
             <div class="front-hint">hover to explore</div>
           </div>
@@ -1491,7 +1530,7 @@
             <p class="card-tag">Graphic Design · Print &amp; Digital</p>
             <h3 class="card-title">Print &amp; Promotional</h3>
             <p class="card-desc">Flyers, event graphics, and product information cards for various clients.<br>Built for specific markets and contexts, not generic templates.</p>
-            <a class="card-link" href="#">View project →</a>
+            <a class="card-link" href="case-studies/nextra.html">View collection →</a>
           </div>
         </div>
       </div>
@@ -1582,7 +1621,7 @@
 
     <div class="about-grid">
 
-      <div class="about-visual">
+      <div class="about-visual" aria-hidden="true">
         <svg viewBox="0 0 300 300" width="260" height="260" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="150" cy="150" r="125" stroke="rgba(196,168,255,0.1)" stroke-width="0.8"/>
           <circle cx="150" cy="150" r="85"  stroke="rgba(196,168,255,0.15)" stroke-width="0.8"/>
@@ -1636,12 +1675,13 @@
         </div>
       </div>
       <div>
-        <p class="skill-col-label">Web</p>
+        <p class="skill-col-label">Web & Code</p>
         <div class="skill-col-list">
-          <span>Websites of any size</span>
-          <span>Landing Pages</span>
+          <span>HTML & CSS</span>
+          <span>JavaScript</span>
+          <span>Flexbox & Grid</span>
           <span>Responsive Design</span>
-          <span>HTML / CSS</span>
+          <span>Landing Pages</span>
           <span>UX Basics</span>
         </div>
       </div>
@@ -1661,6 +1701,7 @@
           <span>Adobe Suite</span>
           <span>Canva Pro</span>
           <span>Webflow</span>
+          <span>VS Code</span>
         </div>
       </div>
     </div>
@@ -1723,7 +1764,7 @@
 
     <div class="sol-switch">
       <span class="sol-label active" id="solLabelSummer">☀ Summer Solstice</span>
-      <button class="sol-toggle" id="solToggle" aria-label="Toggle solstice mode">
+      <button type="button" class="sol-toggle" id="solToggle" aria-label="Toggle solstice mode">
         <span class="sol-thumb"></span>
       </button>
       <span class="sol-label" id="solLabelWinter">☽ Winter Solstice</span>
@@ -1794,25 +1835,12 @@
   /* Aurora + star canvas */
   const canvas = document.getElementById('bgCanvas');
   const ctx = canvas.getContext('2d');
-  let W, H, VH = 0, stars = [], heroStars = [], t = 0, mx = 0.5, my = 0.5, scrollGlow = 0;
+  let W, H = 0, stars = [], heroStars = [], t = 0, mx = 0.5, my = 0.5, scrollGlow = 0;
   let shootingStars = [], nextShootTime = 0, lastTs = 0;
 
-  /* Named constellation patterns — lower hero only, clear of nav */
-  const CONST_PATTERNS = [
-    { /* Orion — belt + body, lower left */
-      stars: [[0.08,0.60],[0.15,0.56],[0.09,0.71],[0.11,0.74],[0.13,0.71],[0.07,0.85],[0.15,0.86]],
-      edges: [[0,1],[0,2],[1,4],[2,3],[3,4],[2,5],[4,6]]
-    },
-    { /* Lyra — lower right */
-      stars: [[0.84,0.64],[0.89,0.72],[0.85,0.81],[0.80,0.75],[0.93,0.75]],
-      edges: [[0,1],[1,2],[2,3],[3,0],[1,4],[4,0]]
-    }
-  ];
-
   function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = document.body.scrollHeight;
-    VH = window.innerHeight;
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
     stars = [];
     for (let i = 0; i < 260; i++) {
       stars.push({
@@ -1829,7 +1857,7 @@
     for (let i = 0; i < 72; i++) {
       heroStars.push({
         bx:  Math.random() * W,              /* base x */
-        by:  Math.random() * VH * 0.92,      /* base y, within hero */
+        by:  Math.random() * H * 0.92,       /* base y, within hero */
         r:   Math.random() * 1.1 + 0.5,
         a:   Math.random() * 0.5 + 0.4,
         spd: Math.random() * 0.003 + 0.0008,
@@ -1849,7 +1877,7 @@
       sy = -5;
     } else {
       sx = -5;                      /* left edge */
-      sy = Math.random() * H * 0.85;
+      sy = Math.random() * H * 0.7;
     }
     shootingStars.push({
       x: sx, y: sy,
@@ -1917,44 +1945,12 @@
       ctx.fill();
     }
 
-    /* Named constellation patterns — fixed positions, always visible */
-    for (const pat of CONST_PATTERNS) {
-      const pts = pat.stars.map(([nx, ny]) => ({
-        x: nx * W,
-        y: ny * H
-      }));
-      /* connecting lines */
-      ctx.lineWidth = 0.65;
-      for (const [a, b] of pat.edges) {
-        ctx.beginPath();
-        ctx.moveTo(pts[a].x, pts[a].y);
-        ctx.lineTo(pts[b].x, pts[b].y);
-        ctx.strokeStyle = 'rgba(196,168,255,0.22)';
-        ctx.stroke();
-      }
-      /* star dots + glow */
-      for (const p of pts) {
-        const tw = Math.sin(t * 1.1 + p.x * 0.01) * 0.15 + 0.85;
-        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 7);
-        glow.addColorStop(0, `rgba(196,168,255,${(0.28 * tw).toFixed(3)})`);
-        glow.addColorStop(1, 'rgba(196,168,255,0)');
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = glow;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.9, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240,236,255,${(0.92 * tw).toFixed(3)})`;
-        ctx.fill();
-      }
-    }
-
     /* Shooting stars */
     if (t > nextShootTime) {
       spawnShooter();
       nextShootTime = t + 3.5 + Math.random() * 5;
     }
-    shootingStars = shootingStars.filter(s => s.life > 0 && s.y < H + 20);
+    shootingStars = shootingStars.filter(s => s.life > 0 && s.x < W + 20 && s.y < H + 20);
     for (const s of shootingStars) {
       s.x += s.vx * dt;
       s.y += s.vy * dt;
@@ -1996,6 +1992,12 @@
     trailPool.push(d);
   }
   let trailPos = [];
+  let trailFadeTimer = null;
+
+  function fadeTrail() {
+    trailPos = [];
+    trailPool.forEach(d => { d.style.opacity = '0'; });
+  }
 
   window.addEventListener('mousemove', e => {
     mx = e.clientX / window.innerWidth;
@@ -2014,6 +2016,9 @@
         d.style.opacity = '0';
       }
     });
+    /* Fade trail out after cursor stops */
+    clearTimeout(trailFadeTimer);
+    trailFadeTimer = setTimeout(fadeTrail, 150);
   });
 
   /* Hover states */
@@ -2024,11 +2029,11 @@
 
   /* Hamburger menu */
   const burger = document.getElementById('navBurger');
-  const navMenu = document.querySelector('.nav-links');
+  const navMenu = document.getElementById('navDrawer');
   burger.addEventListener('click', () => {
     const open = navMenu.classList.toggle('open');
     burger.classList.toggle('open', open);
-    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-expanded', String(open));
   });
   /* Close on link click */
   navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
@@ -2060,16 +2065,16 @@
         logosLink: 'View collection →',
         brandCat: 'Brand Identity', brandTag: 'Brand Strategy · Social', brandTitle: 'Brand Identity',
         brandDesc: 'Full brand systems, including logo, color palette, audience analysis, and content pillars.<br>So every touchpoint feels like the same brand, not a collection of separate assets.',
-        brandLink: 'View project →',
+        brandLink: 'View case study →',
         socialCat: 'Social Content', socialTag: 'Social Media · Content Design', socialTitle: 'Social Content',
         socialDesc: 'Carousel layouts and feed visuals for multiple clients.<br>Each post designed around their audience, what they need to see, not just what looks good.',
-        socialLink: 'View project →',
+        socialLink: 'View case study →',
         webCat: 'Web Design', webTag: 'Web Design · Landing Pages', webTitle: 'Web Design',
         webDesc: 'Responsive websites and landing pages for small businesses.<br>Clear hierarchy and structure, built so visitors know what to do next.',
-        webLink: 'View project →',
+        webLink: 'View case study →',
         printCat: 'Print & Promo', printTag: 'Graphic Design · Print & Digital', printTitle: 'Print & Promotional',
         printDesc: 'Flyers, event graphics, and product information cards for various clients.<br>Built for specific markets and contexts, not generic templates.',
-        printLink: 'View project →',
+        printLink: 'View collection →',
         // Cases
         casesEyebrow: '02 · Case Studies',
         casesTitle: 'The work,<br><em>and what it did</em>',
@@ -2120,16 +2125,16 @@
         logosLink: 'Zur Sammlung →',
         brandCat: 'Markenidentität', brandTag: 'Markenstrategie · Social', brandTitle: 'Markenidentität',
         brandDesc: 'Vollständige Markensysteme mit Logo, Farbpalette, Zielgruppenanalyse und Content-Säulen.<br>Damit jeder Berührungspunkt wie eine Marke wirkt.',
-        brandLink: 'Zum Projekt →',
+        brandLink: 'Zur Fallstudie →',
         socialCat: 'Social Content', socialTag: 'Social Media · Content Design', socialTitle: 'Social Content',
         socialDesc: 'Carousel-Layouts und Feed-Visuals für verschiedene Kunden.<br>Jeder Post auf die Zielgruppe zugeschnitten, nicht nur auf Ästhetik.',
-        socialLink: 'Zum Projekt →',
+        socialLink: 'Zur Fallstudie →',
         webCat: 'Webdesign', webTag: 'Webdesign · Landingpages', webTitle: 'Webdesign',
         webDesc: 'Responsive Websites und Landingpages für Kleinunternehmen.<br>Klare Hierarchie, damit Besucher sofort wissen, was als Nächstes kommt.',
-        webLink: 'Zum Projekt →',
+        webLink: 'Zur Fallstudie →',
         printCat: 'Print & Promo', printTag: 'Grafikdesign · Print & Digital', printTitle: 'Print & Promo',
         printDesc: 'Flyer, Event-Grafiken und Produktinfokarten für verschiedene Kunden.<br>Für spezifische Märkte und Kontexte, keine Vorlagen von der Stange.',
-        printLink: 'Zum Projekt →',
+        printLink: 'Zur Sammlung →',
         casesEyebrow: '02 · Fallstudien',
         casesTitle: 'Die Arbeit,<br><em>und was sie bewirkt hat</em>',
         casesBody: 'Jedes Projekt hatte ein klares Briefing. Das hat sich verändert.',
@@ -2165,7 +2170,7 @@
     const MAP = [
       ['.nav-links li:first-child a', 'navWork', 'text'],
       ['.nav-item > a', 'navCases', 'text'],
-      ['.nav-links li:last-child a', 'navAbout', 'text'],
+      ['.nav-links li:nth-child(3) > a', 'navAbout', 'text'],
       ['#navCta', 'navCta', 'text'],
       ['.hero-eyebrow', 'heroEyebrow', 'text'],
       ['.hero-title', 'heroTitle', 'html'],
@@ -2256,9 +2261,9 @@
       document.getElementById('langOther').textContent = lang === 'en' ? 'DE' : 'EN';
       // sync drawer lang button
       const da = document.getElementById('drawerLangActive');
-      const do_ = document.getElementById('drawerLangOther');
+      const dOther = document.getElementById('drawerLangOther');
       if (da) da.textContent = lang.toUpperCase();
-      if (do_) do_.textContent = lang === 'en' ? 'DE' : 'EN';
+      if (dOther) dOther.textContent = lang === 'en' ? 'DE' : 'EN';
       localStorage.setItem('si-lang', lang);
     }
 

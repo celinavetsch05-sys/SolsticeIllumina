@@ -520,11 +520,6 @@ nav {
 .cs-swiper-col .cs-swiper-label {
   margin-top: 0;
 }
-@media (max-width: 900px) {
-  .cs-swiper-row {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ── BROWSER MOCKUP ── */
 .cs-browser {
@@ -659,8 +654,9 @@ nav {
   font-weight: 300;
 }
 
-/* ── RESPONSIVE: below 900px — sidebar becomes horizontal meta strip ── */
+/* ── TABLET (≤ 900px) — sidebar becomes horizontal meta strip ── */
 @media (max-width: 900px) {
+  nav { padding: 1.2rem 2rem; }
   .cs-inner { flex-direction: column; gap: 2rem; padding: 2rem 2rem 5rem; }
   .cs-sidebar {
     width: 100%;
@@ -671,11 +667,7 @@ nav {
   }
   .cs-sidebar-back { width: 100%; margin-bottom: 0; }
   .cs-sidebar-card { flex: 1; min-width: 120px; padding: .7rem .9rem; }
-}
-
-/* ── TABLET: below 900px ── */
-@media (max-width: 900px) {
-  nav { padding: 1.2rem 2rem; }
+  .cs-swiper-row { grid-template-columns: 1fr; }
 }
 
 /* ── MOBILE: below 768px ── */
