@@ -124,18 +124,12 @@
       justify-content: space-between;
       align-items: center;
     }
-    /* Desktop: float nav-links over the nav bar, centered */
-    .nav-links {
-      position: fixed;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 1.4rem 0;
+    /* Desktop nav links — inside nav-inner */
+    .nav-menu {
       display: flex;
       align-items: center;
       gap: 2.5rem;
       list-style: none;
-      z-index: 1050;
     }
     .nav-logo {
       font-size: 1.05rem;
@@ -150,7 +144,7 @@
     }
     .nav-logo svg { flex-shrink: 0; }
     .nav-logo span { color: var(--lumina); }
-    .nav-links a {
+    .nav-menu a, .nav-links a {
       font-size: .7rem;
       letter-spacing: .28em;
       text-transform: uppercase;
@@ -159,7 +153,8 @@
       font-family: sans-serif;
       transition: color .2s;
     }
-    .nav-links a:hover { color: var(--lumina); }
+    .nav-menu a:hover, .nav-links a:hover { color: var(--lumina); }
+    .nav-links { display: none; } /* desktop: hidden — mobile drawer only */
     .drawer-footer { display: none; } /* desktop: hidden — lives in drawer only */
     .nav-item { position: relative; }
     .nav-dropdown {
@@ -1176,8 +1171,8 @@
     ══════════════════════════════════════ */
     @media (max-width: 1024px) {
       nav { padding: 1.2rem 2rem; }
-      .nav-links { padding: 1.2rem 0; gap: 1.8rem; }
-      .nav-links a { letter-spacing: .18em; }
+      .nav-menu { gap: 1.8rem; }
+      .nav-menu a { letter-spacing: .18em; }
       .sec-inner { padding: 5.5rem 2.5rem; }
 
       /* Hero */
@@ -1208,7 +1203,8 @@
       /* ── Nav ── */
       nav { padding: 1rem 1.25rem; z-index: 2000; }
       .nav-burger { display: flex; }
-      /* Hide lang + CTA from nav bar on mobile — they live in the drawer */
+      /* Hide desktop nav menu and lang + CTA — they live in the drawer */
+      .nav-menu { display: none; }
       .nav-end { display: none; }
       /* Drawer footer: lang + CTA side by side */
       .drawer-footer {
@@ -1417,6 +1413,22 @@
       </svg>
       Solstice <span>Illumina</span>
     </a>
+    <!-- Desktop nav links — hidden on mobile -->
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#portfolio">Work</a></li>
+      <li class="nav-item">
+        <a href="case-studies/mind-heart-finance.html">Case Studies</a>
+        <div class="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <a href="case-studies/mind-heart-finance.html"><span class="dd-num">001</span>Mind Heart Finance</a>
+            <a href="case-studies/larcher-fahrion.html"><span class="dd-num">002</span>Larcher &amp; Fahrion</a>
+            <a href="case-studies/by-vanessa.html"><span class="dd-num">003</span>By Vanessa</a>
+            <a href="case-studies/nextra.html"><span class="dd-num">004</span>Nextra</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="#about">About</a></li>
+    </ul>
     <button type="button" class="nav-burger" id="navBurger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navDrawer">
       <span></span><span></span><span></span>
     </button>
@@ -2264,9 +2276,9 @@
     };
 
     const MAP = [
-      ['.nav-links li:first-child a', 'navWork', 'text'],
-      ['.nav-item > a', 'navCases', 'text'],
-      ['.nav-links li:nth-child(3) > a', 'navAbout', 'text'],
+      ['.nav-menu li:first-child a, .nav-links li:first-child a', 'navWork', 'text'],
+      ['.nav-menu .nav-item > a, .nav-links .nav-item > a', 'navCases', 'text'],
+      ['.nav-menu li:nth-child(3) > a, .nav-links li:nth-child(3) > a', 'navAbout', 'text'],
       ['#navCta', 'navCta', 'text'],
       ['.hero-eyebrow', 'heroEyebrow', 'text'],
       ['.hero-title', 'heroTitle', 'html'],
@@ -2344,11 +2356,12 @@
       const t = T[lang];
       document.documentElement.lang = lang;
       MAP.forEach(([sel, key, type]) => {
-        const el = document.querySelector(sel);
-        if (!el || t[key] === undefined) return;
-        if (type === 'html') el.innerHTML = t[key];
-        else if (type === 'ph') el.placeholder = t[key];
-        else el.textContent = t[key];
+        if (t[key] === undefined) return;
+        document.querySelectorAll(sel).forEach(el => {
+          if (type === 'html') el.innerHTML = t[key];
+          else if (type === 'ph') el.placeholder = t[key];
+          else el.textContent = t[key];
+        });
       });
       document.querySelectorAll('.front-hint').forEach(el => { el.textContent = t.cardHint; });
       document.getElementById('langActive').textContent = lang.toUpperCase();
